@@ -93,3 +93,26 @@ Known issues:
 === Feature #27 PASSED (score: 10/10, 1 attempts, 157s) — 2026-03-28T13:56:26-0700 ===
 
 === Feature #28 PASSED (score: 9/10, 1 attempts, 415s) — 2026-03-28T14:03:26-0700 ===
+
+=== Feature #29 PASSED (score: 10/10, 1 attempts, 123s) — 2026-03-28T14:05:32-0700 ===
+
+=== PLANNING PASS [2026-03-28 14:08:39 -0700] ===
+Build status: PASSING
+Dev server: DOWN
+Features passing: 28/30
+Features skipped: 1/30
+Features pending: 1/30
+
+Regressions detected:
+(or: None)
+
+Blocked features:
+- [feature #3]: skipped after 3 failed attempts (`skip(#3)` in git history); dark mode toggle with localStorage persistence is still unimplemented.
+- [feature #30]: auto-refresh is not started; `useMetrics()` performs a single fetch on mount and has no polling (`setInterval`/30s timer).
+
+Next priority: feature #30 — only non-skipped pending feature remains, and it is isolated to the metrics hook polling behavior.
+
+Known issues:
+- `npm run build` passes via `scripts/build.mjs` offline scaffold validation because `node_modules/.bin/next` is absent; full Next.js compile was not exercised.
+- `http://localhost:3000` is down (`curl` connection failed on 2026-03-28).
+- Runtime behavior with non-empty metrics data cannot be re-verified in this pass because `public/metrics.json` is currently empty.

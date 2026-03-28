@@ -208,6 +208,6 @@
     "category": "polish",
     "description": "Auto-refresh: dashboard polls /metrics.json every 30 seconds and updates all charts and cards without a full page reload",
     "verify": "Modify metrics.json manually, within 30 seconds charts update without page refresh visible in browser",
-    "passes": false
+    "passes": true
   }
 ]

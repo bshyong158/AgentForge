@@ -55,6 +55,8 @@ export interface UseMetricsResult {
   error: string | null;
 }
 
+const METRICS_POLL_INTERVAL_MS = 30_000;
+
 const EMPTY_TOTALS: MetricsTotals = {
   features_completed: 0,
   features_skipped: 0,
@@ -201,8 +203,15 @@ export function useMetrics(): UseMetricsResult {
 
   useEffect(() => {
     let isMounted = true;
+    let isFetching = false;
 
     const loadMetrics = async () => {
+      if (isFetching) {
+        return;
+      }
+
+      isFetching = true;
+
       try {
         const response = await fetch("/metrics.json", { cache: "no-store" });
 
@@ -230,6 +239,8 @@ export function useMetrics(): UseMetricsResult {
           setError(caughtError instanceof Error ? caughtError.message : "Failed to load metrics data.");
         }
       } finally {
+        isFetching = false;
+
         if (isMounted) {
           setIsLoading(false);
         }
@@ -237,9 +248,13 @@ export function useMetrics(): UseMetricsResult {
     };
 
     void loadMetrics();
+    const intervalId = window.setInterval(() => {
+      void loadMetrics();
+    }, METRICS_POLL_INTERVAL_MS);
 
     return () => {
       isMounted = false;
+      window.clearInterval(intervalId);
     };
   }, []);
 
