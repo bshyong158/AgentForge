@@ -47,9 +47,9 @@ export default function ArchitecturePage() {
         </div>
         <div className="rounded-xl border border-blue-900/40 bg-blue-950/10 p-5">
           <p className="text-xs font-semibold uppercase tracking-[0.15em] text-blue-500 mb-2">AI Application</p>
-          <p className="text-lg font-bold text-zinc-100 leading-snug">Build observability you&apos;d actually use</p>
+          <p className="text-lg font-bold text-zinc-100 leading-snug">Full visibility into what your agent is actually doing</p>
           <p className="mt-2 text-sm text-zinc-400">
-            Any team running agents in production needs visibility into what the agent did, how well it did it, and what it cost. This dashboard solves that — and the self-referential angle proves it works. The app was built by the process it monitors.
+            When you let an agent build autonomously, you need to know — step by step — what it built, what it tried, what it rejected, how long it took, and what it cost. This dashboard gives you that visibility in real time. And the proof that it works? It was built by the same agent it monitors.
           </p>
         </div>
       </div>
