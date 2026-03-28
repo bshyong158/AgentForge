@@ -82,7 +82,7 @@
     "category": "timeline",
     "description": "Stacked bar chart using recharts showing iterations per feature with first attempt as one color and revision attempts stacked on top in a different color",
     "verify": "Stacked bars show attempt breakdown, total height equals number of attempts per feature",
-    "passes": false
+    "passes": true
   },
   {
     "id": 13,
