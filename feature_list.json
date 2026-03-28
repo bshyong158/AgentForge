@@ -96,7 +96,7 @@
     "category": "quality",
     "description": "Score distribution histogram using recharts showing count of features at each score level (bins: 1-2, 3-4, 5-6, 7-8, 9-10)",
     "verify": "Histogram bins match actual score distribution from metrics.json, bar heights are correct counts",
-    "passes": false
+    "passes": true
   },
   {
     "id": 15,
