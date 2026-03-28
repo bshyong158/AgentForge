@@ -1,3 +1,4 @@
+import { CategoryAverageScoreBarChart } from "../../components/CategoryAverageScoreBarChart";
 import { FirstVsFinalScoreScatterPlot } from "../../components/FirstVsFinalScoreScatterPlot";
 import { QualityScoreDistributionHistogram } from "../../components/QualityScoreDistributionHistogram";
 
@@ -8,6 +9,7 @@ export default function QualityPage() {
       <p className="text-sm text-zinc-400">Score distribution across completed features.</p>
       <QualityScoreDistributionHistogram />
       <FirstVsFinalScoreScatterPlot />
+      <CategoryAverageScoreBarChart />
     </section>
   );
 }
