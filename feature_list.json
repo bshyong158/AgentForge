@@ -11,7 +11,8 @@
     "category": "scaffold",
     "description": "App shell with sidebar nav containing links: Overview, Timeline, Quality, Features, Tokens, Git. Header with project title. Responsive layout with sidebar + main content area.",
     "verify": "Sidebar renders with 6 nav links, clicking each changes active state, main content area fills remaining width",
-    "passes": false
+    "passes": false,
+    "skipped": true
   },
   {
     "id": 3,
