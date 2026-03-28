@@ -180,7 +180,7 @@
     "category": "git",
     "description": "Commit log feed showing recent feature commits with commit message, timestamp, and quality score rendered as a colored badge (green >= 7, red < 7)",
     "verify": "Feed shows entries from metrics.json features with commit_sha, badges colored correctly by score",
-    "passes": false
+    "passes": true
   },
   {
     "id": 27,
