@@ -7,24 +7,25 @@ export default function ArchitecturePage() {
       <div className="rounded-xl border border-zinc-700 bg-gradient-to-br from-zinc-900 via-zinc-900/80 to-zinc-950 p-8">
         <p className="text-sm font-semibold uppercase tracking-[0.2em] text-emerald-400 mb-3">Ralphthon SF 2026</p>
         <h2 className="text-3xl font-bold tracking-tight text-zinc-100 sm:text-4xl">
-          Everyone here ran a Ralph Loop today.<br />
-          <span className="text-emerald-400">We added teeth.</span>
+          An agent&apos;s self-portrait.
         </h2>
-        <p className="mt-4 max-w-2xl text-zinc-400 leading-relaxed">
-          AgentForge is a <span className="text-zinc-200 font-medium">two-loop autonomous build system</span> with quality backpressure.
-          The outer loop (Ralph) picks a feature and builds it.
-          The inner loop (Evaluator) scores it on 3 dimensions — and <span className="text-zinc-200 font-medium">rejects it if it&apos;s not good enough</span>.
-          A separate model with fresh context grades the work so the builder can&apos;t self-congratulate.
+        <p className="mt-5 max-w-2xl text-zinc-300 leading-relaxed text-[15px]">
+          This dashboard was built from scratch by an autonomous agent in 78 minutes — <span className="text-zinc-100 font-semibold">zero human code</span> — and every chart on screen is showing you that agent&apos;s own build process: its scores, its failures, its revisions, its cost.
+        </p>
+        <p className="mt-4 max-w-2xl text-zinc-300 leading-relaxed text-[15px]">
+          The trick is <span className="text-emerald-400 font-semibold">backpressure</span>. Before any line of code is allowed to commit, a completely separate evaluator agent scores it and rejects anything that isn&apos;t good enough. The builder can&apos;t grade its own homework.
+        </p>
+        <p className="mt-4 max-w-2xl text-zinc-400 leading-relaxed text-[15px]">
+          Same model everyone here used today, same tokens — <span className="text-zinc-200 font-medium">different architecture, better output</span>.
         </p>
         <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
           <Stat label="Features Built" value="29 / 30" />
           <Stat label="Avg Score" value="9.5 / 10" />
-          <Stat label="Total Build" value="~75 min" />
+          <Stat label="Total Build" value="78 min" />
           <Stat label="Human Code" value="0 lines" />
         </div>
-        <p className="mt-6 text-sm text-zinc-500">
-          Generating code is cheap. What&apos;s hard is ensuring the agent generated the <span className="text-zinc-300 italic">right</span> thing.
-          Same model as everyone else. Same tokens. <span className="text-zinc-200 font-medium">Different harness.</span>
+        <p className="mt-6 text-sm text-zinc-500 italic">
+          The app is the output. The harness is the innovation. And the dashboard is the agent watching itself learn.
         </p>
       </div>
 
