@@ -11,14 +11,14 @@
         {
           "iteration": 1,
           "score": 9,
-          "feedback": "Passed all gates on first attempt",
+          "feedback": "Passed all gates",
           "tokens_coder": 2000,
           "tokens_evaluator": 500,
-          "duration_sec": 120
+          "duration_sec": 180
         }
       ],
       "final_score": 9,
-      "started_at": "2026-03-28T12:52:40-07:00",
+      "started_at": "2026-03-28T12:51:40-07:00",
       "completed_at": "2026-03-28T12:54:40-07:00",
       "lines_added": 0,
       "commit_sha": "b5460df"
@@ -32,14 +32,14 @@
         {
           "iteration": 1,
           "score": 9,
-          "feedback": "Passed all gates on first attempt",
+          "feedback": "Passed all gates",
           "tokens_coder": 2000,
           "tokens_evaluator": 500,
-          "duration_sec": 120
+          "duration_sec": 132
         }
       ],
       "final_score": 9,
-      "started_at": "2026-03-28T12:54:52-07:00",
+      "started_at": "2026-03-28T12:54:40-07:00",
       "completed_at": "2026-03-28T12:56:52-07:00",
       "lines_added": 0,
       "commit_sha": "74c6ebe"
@@ -53,15 +53,31 @@
         {
           "iteration": 1,
           "score": 3,
-          "feedback": "Build gate failed after 3 attempts",
+          "feedback": "Build gate failed",
           "tokens_coder": 3000,
           "tokens_evaluator": 600,
           "duration_sec": 180
+        },
+        {
+          "iteration": 2,
+          "score": 0,
+          "feedback": "Build failed again",
+          "tokens_coder": 2000,
+          "tokens_evaluator": 500,
+          "duration_sec": 120
+        },
+        {
+          "iteration": 3,
+          "score": 2,
+          "feedback": "Max attempts reached",
+          "tokens_coder": 2500,
+          "tokens_evaluator": 550,
+          "duration_sec": 150
         }
       ],
       "final_score": 3,
-      "started_at": "2026-03-28T12:51:52-07:00",
-      "completed_at": "2026-03-28T12:54:52-07:00",
+      "started_at": "2026-03-28T12:54:40-07:00",
+      "completed_at": "2026-03-28T12:56:52-07:00",
       "lines_added": 0,
       "commit_sha": ""
     },
@@ -74,14 +90,14 @@
         {
           "iteration": 1,
           "score": 10,
-          "feedback": "Passed all gates on first attempt",
+          "feedback": "Passed all gates",
           "tokens_coder": 2000,
           "tokens_evaluator": 500,
-          "duration_sec": 120
+          "duration_sec": 179
         }
       ],
       "final_score": 10,
-      "started_at": "2026-03-28T12:57:51-07:00",
+      "started_at": "2026-03-28T12:56:52-07:00",
       "completed_at": "2026-03-28T12:59:51-07:00",
       "lines_added": 0,
       "commit_sha": "20345f9"
@@ -95,14 +111,14 @@
         {
           "iteration": 1,
           "score": 9,
-          "feedback": "Passed all gates on first attempt",
+          "feedback": "Passed all gates",
           "tokens_coder": 2000,
           "tokens_evaluator": 500,
-          "duration_sec": 120
+          "duration_sec": 98
         }
       ],
       "final_score": 9,
-      "started_at": "2026-03-28T12:59:29-07:00",
+      "started_at": "2026-03-28T12:59:51-07:00",
       "completed_at": "2026-03-28T13:01:29-07:00",
       "lines_added": 0,
       "commit_sha": "7bc6369"
@@ -116,7 +132,7 @@
         {
           "iteration": 1,
           "score": 9,
-          "feedback": "Passed all gates on first attempt",
+          "feedback": "Passed all gates",
           "tokens_coder": 2000,
           "tokens_evaluator": 500,
           "duration_sec": 120
@@ -137,14 +153,14 @@
         {
           "iteration": 1,
           "score": 10,
-          "feedback": "Passed all gates on first attempt",
+          "feedback": "Passed all gates",
           "tokens_coder": 2000,
           "tokens_evaluator": 500,
-          "duration_sec": 120
+          "duration_sec": 88
         }
       ],
       "final_score": 10,
-      "started_at": "2026-03-28T13:02:57-07:00",
+      "started_at": "2026-03-28T13:03:29-07:00",
       "completed_at": "2026-03-28T13:04:57-07:00",
       "lines_added": 0,
       "commit_sha": "72c8769"
@@ -158,14 +174,14 @@
         {
           "iteration": 1,
           "score": 10,
-          "feedback": "Passed all gates on first attempt",
+          "feedback": "Passed all gates",
           "tokens_coder": 2000,
           "tokens_evaluator": 500,
-          "duration_sec": 120
+          "duration_sec": 86
         }
       ],
       "final_score": 10,
-      "started_at": "2026-03-28T13:04:23-07:00",
+      "started_at": "2026-03-28T13:04:57-07:00",
       "completed_at": "2026-03-28T13:06:23-07:00",
       "lines_added": 0,
       "commit_sha": "70c6af3"
@@ -179,14 +195,14 @@
         {
           "iteration": 1,
           "score": 10,
-          "feedback": "Passed all gates on first attempt",
+          "feedback": "Passed all gates",
           "tokens_coder": 2000,
           "tokens_evaluator": 500,
-          "duration_sec": 120
+          "duration_sec": 140
         }
       ],
       "final_score": 10,
-      "started_at": "2026-03-28T13:06:43-07:00",
+      "started_at": "2026-03-28T13:06:23-07:00",
       "completed_at": "2026-03-28T13:08:43-07:00",
       "lines_added": 0,
       "commit_sha": "7a92bad"
@@ -200,14 +216,14 @@
         {
           "iteration": 1,
           "score": 10,
-          "feedback": "Passed all gates on first attempt",
+          "feedback": "Passed all gates",
           "tokens_coder": 2000,
           "tokens_evaluator": 500,
-          "duration_sec": 120
+          "duration_sec": 114
         }
       ],
       "final_score": 10,
-      "started_at": "2026-03-28T13:08:37-07:00",
+      "started_at": "2026-03-28T13:08:43-07:00",
       "completed_at": "2026-03-28T13:10:37-07:00",
       "lines_added": 0,
       "commit_sha": "bc714b1"
@@ -221,14 +237,14 @@
         {
           "iteration": 1,
           "score": 10,
-          "feedback": "Passed all gates on first attempt",
+          "feedback": "Passed all gates",
           "tokens_coder": 2000,
           "tokens_evaluator": 500,
-          "duration_sec": 120
+          "duration_sec": 108
         }
       ],
       "final_score": 10,
-      "started_at": "2026-03-28T13:10:25-07:00",
+      "started_at": "2026-03-28T13:10:37-07:00",
       "completed_at": "2026-03-28T13:12:25-07:00",
       "lines_added": 0,
       "commit_sha": "1b048d6"
@@ -242,14 +258,14 @@
         {
           "iteration": 1,
           "score": 10,
-          "feedback": "Passed all gates on first attempt",
+          "feedback": "Passed all gates",
           "tokens_coder": 2000,
           "tokens_evaluator": 500,
-          "duration_sec": 120
+          "duration_sec": 255
         }
       ],
       "final_score": 10,
-      "started_at": "2026-03-28T13:14:40-07:00",
+      "started_at": "2026-03-28T13:12:25-07:00",
       "completed_at": "2026-03-28T13:16:40-07:00",
       "lines_added": 0,
       "commit_sha": "91a699d"
@@ -263,14 +279,14 @@
         {
           "iteration": 1,
           "score": 8,
-          "feedback": "Passed all gates on first attempt",
+          "feedback": "Passed all gates",
           "tokens_coder": 2000,
           "tokens_evaluator": 500,
-          "duration_sec": 120
+          "duration_sec": 119
         }
       ],
       "final_score": 8,
-      "started_at": "2026-03-28T13:16:39-07:00",
+      "started_at": "2026-03-28T13:16:40-07:00",
       "completed_at": "2026-03-28T13:18:39-07:00",
       "lines_added": 0,
       "commit_sha": "59e4e30"
@@ -284,14 +300,14 @@
         {
           "iteration": 1,
           "score": 9,
-          "feedback": "Passed all gates on first attempt",
+          "feedback": "Passed all gates",
           "tokens_coder": 2000,
           "tokens_evaluator": 500,
-          "duration_sec": 120
+          "duration_sec": 128
         }
       ],
       "final_score": 9,
-      "started_at": "2026-03-28T13:18:47-07:00",
+      "started_at": "2026-03-28T13:18:39-07:00",
       "completed_at": "2026-03-28T13:20:47-07:00",
       "lines_added": 0,
       "commit_sha": "abe7492"
@@ -305,14 +321,14 @@
         {
           "iteration": 1,
           "score": 10,
-          "feedback": "Passed all gates on first attempt",
+          "feedback": "Passed all gates",
           "tokens_coder": 2000,
           "tokens_evaluator": 500,
-          "duration_sec": 120
+          "duration_sec": 133
         }
       ],
       "final_score": 10,
-      "started_at": "2026-03-28T13:21:00-07:00",
+      "started_at": "2026-03-28T13:20:47-07:00",
       "completed_at": "2026-03-28T13:23:00-07:00",
       "lines_added": 0,
       "commit_sha": "5a9b188"
@@ -326,14 +342,14 @@
         {
           "iteration": 1,
           "score": 10,
-          "feedback": "Passed all gates on first attempt",
+          "feedback": "Passed all gates",
           "tokens_coder": 2000,
           "tokens_evaluator": 500,
-          "duration_sec": 120
+          "duration_sec": 153
         }
       ],
       "final_score": 10,
-      "started_at": "2026-03-28T13:23:33-07:00",
+      "started_at": "2026-03-28T13:23:00-07:00",
       "completed_at": "2026-03-28T13:25:33-07:00",
       "lines_added": 0,
       "commit_sha": "da394a1"
@@ -347,14 +363,14 @@
         {
           "iteration": 1,
           "score": 10,
-          "feedback": "Passed all gates on first attempt",
+          "feedback": "Passed all gates",
           "tokens_coder": 2000,
           "tokens_evaluator": 500,
-          "duration_sec": 120
+          "duration_sec": 160
         }
       ],
       "final_score": 10,
-      "started_at": "2026-03-28T13:26:13-07:00",
+      "started_at": "2026-03-28T13:25:33-07:00",
       "completed_at": "2026-03-28T13:28:13-07:00",
       "lines_added": 0,
       "commit_sha": "cbf8d61"
@@ -368,14 +384,14 @@
         {
           "iteration": 1,
           "score": 10,
-          "feedback": "Passed all gates on first attempt",
+          "feedback": "Passed all gates",
           "tokens_coder": 2000,
           "tokens_evaluator": 500,
-          "duration_sec": 120
+          "duration_sec": 97
         }
       ],
       "final_score": 10,
-      "started_at": "2026-03-28T13:27:50-07:00",
+      "started_at": "2026-03-28T13:28:13-07:00",
       "completed_at": "2026-03-28T13:29:50-07:00",
       "lines_added": 0,
       "commit_sha": "ecc8a0b"
@@ -389,14 +405,14 @@
         {
           "iteration": 1,
           "score": 10,
-          "feedback": "Passed all gates on first attempt",
+          "feedback": "Passed all gates",
           "tokens_coder": 2000,
           "tokens_evaluator": 500,
-          "duration_sec": 120
+          "duration_sec": 172
         }
       ],
       "final_score": 10,
-      "started_at": "2026-03-28T13:30:42-07:00",
+      "started_at": "2026-03-28T13:29:50-07:00",
       "completed_at": "2026-03-28T13:32:42-07:00",
       "lines_added": 0,
       "commit_sha": "4ef4c79"
@@ -410,14 +426,14 @@
         {
           "iteration": 1,
           "score": 10,
-          "feedback": "Passed all gates on first attempt",
+          "feedback": "Passed all gates",
           "tokens_coder": 2000,
           "tokens_evaluator": 500,
-          "duration_sec": 120
+          "duration_sec": 165
         }
       ],
       "final_score": 10,
-      "started_at": "2026-03-28T13:33:27-07:00",
+      "started_at": "2026-03-28T13:32:42-07:00",
       "completed_at": "2026-03-28T13:35:27-07:00",
       "lines_added": 0,
       "commit_sha": "41778b3"
@@ -431,14 +447,14 @@
         {
           "iteration": 1,
           "score": 10,
-          "feedback": "Passed all gates on first attempt",
+          "feedback": "Passed all gates",
           "tokens_coder": 2000,
           "tokens_evaluator": 500,
-          "duration_sec": 120
+          "duration_sec": 288
         }
       ],
       "final_score": 10,
-      "started_at": "2026-03-28T13:38:15-07:00",
+      "started_at": "2026-03-28T13:35:27-07:00",
       "completed_at": "2026-03-28T13:40:15-07:00",
       "lines_added": 0,
       "commit_sha": "a22c1bf"
@@ -452,14 +468,14 @@
         {
           "iteration": 1,
           "score": 10,
-          "feedback": "Passed all gates on first attempt",
+          "feedback": "Passed all gates",
           "tokens_coder": 2000,
           "tokens_evaluator": 500,
-          "duration_sec": 120
+          "duration_sec": 190
         }
       ],
       "final_score": 10,
-      "started_at": "2026-03-28T13:41:25-07:00",
+      "started_at": "2026-03-28T13:40:15-07:00",
       "completed_at": "2026-03-28T13:43:25-07:00",
       "lines_added": 0,
       "commit_sha": "e9914fa"
@@ -473,14 +489,14 @@
         {
           "iteration": 1,
           "score": 10,
-          "feedback": "Passed all gates on first attempt",
+          "feedback": "Passed all gates",
           "tokens_coder": 2000,
           "tokens_evaluator": 500,
-          "duration_sec": 120
+          "duration_sec": 114
         }
       ],
       "final_score": 10,
-      "started_at": "2026-03-28T13:43:19-07:00",
+      "started_at": "2026-03-28T13:43:25-07:00",
       "completed_at": "2026-03-28T13:45:19-07:00",
       "lines_added": 0,
       "commit_sha": "55ddf23"
@@ -494,14 +510,14 @@
         {
           "iteration": 1,
           "score": 10,
-          "feedback": "Passed all gates on first attempt",
+          "feedback": "Passed all gates",
           "tokens_coder": 2000,
           "tokens_evaluator": 500,
-          "duration_sec": 120
+          "duration_sec": 137
         }
       ],
       "final_score": 10,
-      "started_at": "2026-03-28T13:45:36-07:00",
+      "started_at": "2026-03-28T13:45:19-07:00",
       "completed_at": "2026-03-28T13:47:36-07:00",
       "lines_added": 0,
       "commit_sha": "4e98553"
@@ -515,14 +531,14 @@
         {
           "iteration": 1,
           "score": 10,
-          "feedback": "Passed all gates on first attempt",
+          "feedback": "Passed all gates",
           "tokens_coder": 2000,
           "tokens_evaluator": 500,
-          "duration_sec": 120
+          "duration_sec": 222
         }
       ],
       "final_score": 10,
-      "started_at": "2026-03-28T13:49:18-07:00",
+      "started_at": "2026-03-28T13:47:36-07:00",
       "completed_at": "2026-03-28T13:51:18-07:00",
       "lines_added": 0,
       "commit_sha": "d240056"
@@ -536,14 +552,14 @@
         {
           "iteration": 1,
           "score": 10,
-          "feedback": "Passed all gates on first attempt",
+          "feedback": "Passed all gates",
           "tokens_coder": 2000,
           "tokens_evaluator": 500,
-          "duration_sec": 120
+          "duration_sec": 147
         }
       ],
       "final_score": 10,
-      "started_at": "2026-03-28T13:51:45-07:00",
+      "started_at": "2026-03-28T13:51:18-07:00",
       "completed_at": "2026-03-28T13:53:45-07:00",
       "lines_added": 0,
       "commit_sha": "2b8bdf5"
@@ -557,14 +573,14 @@
         {
           "iteration": 1,
           "score": 10,
-          "feedback": "Passed all gates on first attempt",
+          "feedback": "Passed all gates",
           "tokens_coder": 2000,
           "tokens_evaluator": 500,
-          "duration_sec": 120
+          "duration_sec": 160
         }
       ],
       "final_score": 10,
-      "started_at": "2026-03-28T13:54:25-07:00",
+      "started_at": "2026-03-28T13:53:45-07:00",
       "completed_at": "2026-03-28T13:56:25-07:00",
       "lines_added": 0,
       "commit_sha": "7884044"
@@ -578,14 +594,14 @@
         {
           "iteration": 1,
           "score": 9,
-          "feedback": "Passed all gates on first attempt",
+          "feedback": "Passed all gates",
           "tokens_coder": 2000,
           "tokens_evaluator": 500,
-          "duration_sec": 120
+          "duration_sec": 419
         }
       ],
       "final_score": 9,
-      "started_at": "2026-03-28T14:01:24-07:00",
+      "started_at": "2026-03-28T13:56:25-07:00",
       "completed_at": "2026-03-28T14:03:24-07:00",
       "lines_added": 0,
       "commit_sha": "6016520"
@@ -599,14 +615,14 @@
         {
           "iteration": 1,
           "score": 10,
-          "feedback": "Passed all gates on first attempt",
+          "feedback": "Passed all gates",
           "tokens_coder": 2000,
           "tokens_evaluator": 500,
-          "duration_sec": 120
+          "duration_sec": 127
         }
       ],
       "final_score": 10,
-      "started_at": "2026-03-28T14:03:31-07:00",
+      "started_at": "2026-03-28T14:03:24-07:00",
       "completed_at": "2026-03-28T14:05:31-07:00",
       "lines_added": 0,
       "commit_sha": "60d5cbf"
@@ -620,14 +636,14 @@
         {
           "iteration": 1,
           "score": 9,
-          "feedback": "Passed all gates on first attempt",
+          "feedback": "Passed all gates",
           "tokens_coder": 2000,
           "tokens_evaluator": 500,
-          "duration_sec": 120
+          "duration_sec": 303
         }
       ],
       "final_score": 9,
-      "started_at": "2026-03-28T14:08:34-07:00",
+      "started_at": "2026-03-28T14:05:31-07:00",
       "completed_at": "2026-03-28T14:10:34-07:00",
       "lines_added": 0,
       "commit_sha": "43483ca"
