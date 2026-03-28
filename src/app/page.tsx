@@ -1,3 +1,4 @@
+import { AverageQualityCard } from "../components/AverageQualityCard";
 import { FeatureCompletionCard } from "../components/FeatureCompletionCard";
 
 export default function OverviewPage() {
@@ -5,7 +6,10 @@ export default function OverviewPage() {
     <section className="space-y-6">
       <h2 className="text-2xl font-semibold tracking-tight">AgentForge</h2>
       <p className="text-sm text-zinc-400">Overview</p>
-      <FeatureCompletionCard />
+      <div className="grid gap-4 md:grid-cols-2">
+        <FeatureCompletionCard />
+        <AverageQualityCard />
+      </div>
     </section>
   );
 }

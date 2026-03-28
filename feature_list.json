@@ -40,7 +40,7 @@
     "category": "cards",
     "description": "Stat card showing average quality score across all completed features with a trend arrow (up if last 5 scores above overall average, down if below, flat if equal)",
     "verify": "Score calculates correctly from metrics.json, arrow direction matches trend logic",
-    "passes": false
+    "passes": true
   },
   {
     "id": 7,
