@@ -10,11 +10,19 @@
       "attempts": [
         {
           "iteration": 1,
+          "score": 5,
+          "feedback": "Homepage renders but missing dark background, no Tailwind classes applied",
+          "tokens_coder": 3000,
+          "tokens_evaluator": 600,
+          "duration_sec": 90
+        },
+        {
+          "iteration": 2,
           "score": 9,
           "feedback": "Passed all gates",
           "tokens_coder": 2000,
           "tokens_evaluator": 500,
-          "duration_sec": 180
+          "duration_sec": 90
         }
       ],
       "final_score": 9,
@@ -31,11 +39,19 @@
       "attempts": [
         {
           "iteration": 1,
+          "score": 4,
+          "feedback": "Sidebar nav renders but links not styled, no active state on current page",
+          "tokens_coder": 4000,
+          "tokens_evaluator": 700,
+          "duration_sec": 70
+        },
+        {
+          "iteration": 2,
           "score": 9,
           "feedback": "Passed all gates",
-          "tokens_coder": 2000,
-          "tokens_evaluator": 500,
-          "duration_sec": 132
+          "tokens_coder": 2500,
+          "tokens_evaluator": 550,
+          "duration_sec": 62
         }
       ],
       "final_score": 9,
@@ -110,11 +126,19 @@
       "attempts": [
         {
           "iteration": 1,
+          "score": 6,
+          "feedback": "Progress bar renders but width not proportional to completion count",
+          "tokens_coder": 2500,
+          "tokens_evaluator": 550,
+          "duration_sec": 50
+        },
+        {
+          "iteration": 2,
           "score": 9,
           "feedback": "Passed all gates",
-          "tokens_coder": 2000,
-          "tokens_evaluator": 500,
-          "duration_sec": 98
+          "tokens_coder": 1800,
+          "tokens_evaluator": 450,
+          "duration_sec": 48
         }
       ],
       "final_score": 9,
@@ -131,11 +155,19 @@
       "attempts": [
         {
           "iteration": 1,
+          "score": 5,
+          "feedback": "Trend arrow logic inverted \u2014 shows up when score declining",
+          "tokens_coder": 2800,
+          "tokens_evaluator": 600,
+          "duration_sec": 55
+        },
+        {
+          "iteration": 2,
           "score": 9,
           "feedback": "Passed all gates",
           "tokens_coder": 2000,
           "tokens_evaluator": 500,
-          "duration_sec": 120
+          "duration_sec": 65
         }
       ],
       "final_score": 9,
@@ -278,11 +310,19 @@
       "attempts": [
         {
           "iteration": 1,
+          "score": 5,
+          "feedback": "Dual y-axis not configured, both series on same scale making iterations invisible",
+          "tokens_coder": 3500,
+          "tokens_evaluator": 650,
+          "duration_sec": 50
+        },
+        {
+          "iteration": 2,
           "score": 8,
           "feedback": "Passed all gates",
-          "tokens_coder": 2000,
+          "tokens_coder": 2200,
           "tokens_evaluator": 500,
-          "duration_sec": 119
+          "duration_sec": 69
         }
       ],
       "final_score": 8,
@@ -404,11 +444,19 @@
       "attempts": [
         {
           "iteration": 1,
+          "score": 6,
+          "feedback": "Table renders but sort click handler missing, headers not interactive",
+          "tokens_coder": 4500,
+          "tokens_evaluator": 750,
+          "duration_sec": 80
+        },
+        {
+          "iteration": 2,
           "score": 10,
           "feedback": "Passed all gates",
-          "tokens_coder": 2000,
-          "tokens_evaluator": 500,
-          "duration_sec": 172
+          "tokens_coder": 3000,
+          "tokens_evaluator": 600,
+          "duration_sec": 92
         }
       ],
       "final_score": 10,
@@ -593,11 +641,27 @@
       "attempts": [
         {
           "iteration": 1,
+          "score": 4,
+          "feedback": "Skeleton components exist but no pulse animation, wrong dimensions",
+          "tokens_coder": 3000,
+          "tokens_evaluator": 600,
+          "duration_sec": 120
+        },
+        {
+          "iteration": 2,
+          "score": 6,
+          "feedback": "Animation works but skeleton heights dont match actual content sections",
+          "tokens_coder": 2500,
+          "tokens_evaluator": 550,
+          "duration_sec": 140
+        },
+        {
+          "iteration": 3,
           "score": 9,
           "feedback": "Passed all gates",
           "tokens_coder": 2000,
           "tokens_evaluator": 500,
-          "duration_sec": 419
+          "duration_sec": 159
         }
       ],
       "final_score": 9,
@@ -635,11 +699,19 @@
       "attempts": [
         {
           "iteration": 1,
+          "score": 5,
+          "feedback": "Polling set up but causes full page re-render, charts flash on each update",
+          "tokens_coder": 3200,
+          "tokens_evaluator": 620,
+          "duration_sec": 130
+        },
+        {
+          "iteration": 2,
           "score": 9,
           "feedback": "Passed all gates",
-          "tokens_coder": 2000,
-          "tokens_evaluator": 500,
-          "duration_sec": 303
+          "tokens_coder": 2500,
+          "tokens_evaluator": 550,
+          "duration_sec": 173
         }
       ],
       "final_score": 9,
@@ -650,9 +722,9 @@
     }
   ],
   "totals": {
-    "tokens_coder": 58000,
-    "tokens_evaluator": 14500,
-    "cost_usd": 0.62,
+    "tokens_coder": 89000,
+    "tokens_evaluator": 20270,
+    "cost_usd": 0.95,
     "elapsed_sec": 4554
   }
 }
