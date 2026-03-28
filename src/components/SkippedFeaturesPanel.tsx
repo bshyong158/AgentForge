@@ -2,6 +2,7 @@
 
 import { useMemo } from "react";
 import { type MetricsFeature, useMetrics } from "../hooks/useMetrics";
+import { MetricsSectionSkeleton } from "./MetricsSectionSkeleton";
 
 interface SkippedFeatureRow {
   id: number;
@@ -55,6 +56,10 @@ export function SkippedFeaturesPanel() {
   const { data, isLoading, error } = useMetrics();
   const skippedFeatures = useMemo(() => buildSkippedFeatures(data.features), [data.features]);
   const hasSkippedFeatures = skippedFeatures.length > 0;
+
+  if (isLoading) {
+    return <MetricsSectionSkeleton ariaLabel="Skipped features panel" variant="panel" />;
+  }
 
   return (
     <section className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-5" aria-label="Skipped features panel">

@@ -2,6 +2,7 @@
 
 import { useMemo } from "react";
 import { type MetricsFeature, useMetrics } from "../hooks/useMetrics";
+import { MetricsSectionSkeleton } from "./MetricsSectionSkeleton";
 import { type CodeVolumeSparklinePoint, CodeVolumeSparkline } from "./CodeVolumeSparkline";
 
 interface CommitFeedItem {
@@ -129,6 +130,10 @@ function buildCommitFeedItems(features: MetricsFeature[]): CommitFeedItem[] {
 export function GitCommitFeed() {
   const { data, isLoading, error } = useMetrics();
   const commitFeedItems = useMemo(() => buildCommitFeedItems(data.features), [data.features]);
+
+  if (isLoading) {
+    return <MetricsSectionSkeleton ariaLabel="Recent commit feed" variant="feed" />;
+  }
 
   return (
     <section className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-5" aria-label="Recent commit feed">

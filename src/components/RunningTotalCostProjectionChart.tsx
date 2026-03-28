@@ -3,6 +3,7 @@
 import { useMemo } from "react";
 import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { type MetricsFeature, useMetrics } from "../hooks/useMetrics";
+import { MetricsSectionSkeleton } from "./MetricsSectionSkeleton";
 
 interface RunningCostPoint {
   feature_number: number;
@@ -165,6 +166,10 @@ export function RunningTotalCostProjectionChart() {
   );
 
   const hasChartData = series.points.length > 0;
+
+  if (isLoading) {
+    return <MetricsSectionSkeleton ariaLabel="Running total and projected final cost chart" variant="chart" />;
+  }
 
   return (
     <section

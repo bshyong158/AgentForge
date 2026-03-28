@@ -2,6 +2,7 @@
 
 import { useMemo } from "react";
 import { useMetrics } from "../hooks/useMetrics";
+import { MetricsSectionSkeleton } from "./MetricsSectionSkeleton";
 
 const TOKEN_FORMATTER = new Intl.NumberFormat("en-US");
 const USD_FORMATTER = new Intl.NumberFormat("en-US", {
@@ -25,6 +26,10 @@ export function TotalTokensCard() {
   }, [data.totals.cost_usd, data.totals.total_tokens_coder, data.totals.total_tokens_evaluator]);
 
   const hasTokenData = totalTokens > 0 || totalCost > 0;
+
+  if (isLoading) {
+    return <MetricsSectionSkeleton ariaLabel="Total tokens and cost" variant="card" />;
+  }
 
   return (
     <section className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-5" aria-label="Total tokens and cost">

@@ -2,6 +2,7 @@
 
 import { Fragment, useMemo, useState, type KeyboardEvent } from "react";
 import { type FeatureStatus, type MetricsFeature, useMetrics } from "../hooks/useMetrics";
+import { MetricsSectionSkeleton } from "./MetricsSectionSkeleton";
 
 type SortKey = "id" | "description" | "category" | "score" | "iterations" | "status" | "duration";
 type SortDirection = "asc" | "desc";
@@ -251,6 +252,10 @@ export function FeatureTable() {
       toggleExpandedRow(rowId);
     }
   };
+
+  if (isLoading) {
+    return <MetricsSectionSkeleton ariaLabel="Feature table" variant="table" />;
+  }
 
   return (
     <section className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-5" aria-label="Feature table">

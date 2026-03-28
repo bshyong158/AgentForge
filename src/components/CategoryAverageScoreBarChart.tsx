@@ -3,6 +3,7 @@
 import { useMemo } from "react";
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { type MetricsFeature, useMetrics } from "../hooks/useMetrics";
+import { MetricsSectionSkeleton } from "./MetricsSectionSkeleton";
 
 const CATEGORY_ORDER = [
   "scaffold",
@@ -91,6 +92,10 @@ export function CategoryAverageScoreBarChart() {
   const { data, isLoading, error } = useMetrics();
   const chartData = useMemo(() => buildCategoryAverages(data.features), [data.features]);
   const hasChartData = chartData.some((point) => point.feature_count > 0);
+
+  if (isLoading) {
+    return <MetricsSectionSkeleton ariaLabel="Average quality score by category horizontal bar chart" variant="chart" />;
+  }
 
   return (
     <section

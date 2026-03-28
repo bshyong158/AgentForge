@@ -3,6 +3,7 @@
 import { useMemo } from "react";
 import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { type MetricsFeature, useMetrics } from "../hooks/useMetrics";
+import { MetricsSectionSkeleton } from "./MetricsSectionSkeleton";
 
 interface CompletionPoint {
   timestamp: number;
@@ -54,6 +55,10 @@ export function CumulativeCompletionChart() {
     chartData.length === 1
       ? [chartData[0].timestamp - 60_000, chartData[0].timestamp + 60_000]
       : undefined;
+
+  if (isLoading) {
+    return <MetricsSectionSkeleton ariaLabel="Cumulative completion chart" variant="chart" />;
+  }
 
   return (
     <section className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-5" aria-label="Cumulative completion chart">

@@ -2,6 +2,7 @@
 
 import { useMemo } from "react";
 import { type MetricsFeature, useMetrics } from "../hooks/useMetrics";
+import { MetricsSectionSkeleton } from "./MetricsSectionSkeleton";
 
 type TrendDirection = "up" | "down" | "flat";
 
@@ -92,6 +93,10 @@ export function AverageQualityCard() {
   }, [data.features]);
 
   const trendVisual = TREND_VISUALS[trendDirection];
+
+  if (isLoading) {
+    return <MetricsSectionSkeleton ariaLabel="Average quality score" variant="card" />;
+  }
 
   return (
     <section

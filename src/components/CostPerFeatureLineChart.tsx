@@ -3,6 +3,7 @@
 import { useMemo } from "react";
 import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { type MetricsFeature, useMetrics } from "../hooks/useMetrics";
+import { MetricsSectionSkeleton } from "./MetricsSectionSkeleton";
 
 interface FeatureCostPoint {
   completion_order: number;
@@ -63,6 +64,10 @@ export function CostPerFeatureLineChart() {
   const { data, isLoading, error } = useMetrics();
   const chartData = useMemo(() => buildCostSeries(data.features), [data.features]);
   const hasChartData = chartData.length > 0;
+
+  if (isLoading) {
+    return <MetricsSectionSkeleton ariaLabel="Cost per feature chart" variant="chart" />;
+  }
 
   return (
     <section className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-5" aria-label="Cost per feature chart">

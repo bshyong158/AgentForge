@@ -1,6 +1,7 @@
 "use client";
 
 import { useMetrics } from "../hooks/useMetrics";
+import { MetricsSectionSkeleton } from "./MetricsSectionSkeleton";
 
 function clampPercent(value: number): number {
   if (!Number.isFinite(value)) {
@@ -26,6 +27,10 @@ export function FeatureCompletionCard() {
   const completedFeatures = data.features.length > 0 ? completedByStatus : data.totals.features_completed;
   const progressPercent = clampPercent((completedFeatures / totalFeatures) * 100);
   const hasNoCompletedFeatures = completedFeatures === 0;
+
+  if (isLoading) {
+    return <MetricsSectionSkeleton ariaLabel="Feature completion progress" variant="card" />;
+  }
 
   return (
     <section

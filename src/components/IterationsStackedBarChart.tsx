@@ -12,6 +12,7 @@ import {
   YAxis,
 } from "recharts";
 import { type MetricsFeature, useMetrics } from "../hooks/useMetrics";
+import { MetricsSectionSkeleton } from "./MetricsSectionSkeleton";
 
 interface IterationPoint {
   feature_id: number;
@@ -43,6 +44,10 @@ export function IterationsStackedBarChart() {
   const { data, isLoading, error } = useMetrics();
   const chartData = useMemo(() => buildIterationSeries(data.features), [data.features]);
   const hasChartData = chartData.some((point) => point.total_attempts > 0);
+
+  if (isLoading) {
+    return <MetricsSectionSkeleton ariaLabel="Iterations per feature stacked bar chart" variant="chart" />;
+  }
 
   return (
     <section

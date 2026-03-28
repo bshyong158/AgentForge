@@ -13,6 +13,7 @@ import {
   YAxis,
 } from "recharts";
 import { type MetricsFeature, useMetrics } from "../hooks/useMetrics";
+import { MetricsSectionSkeleton } from "./MetricsSectionSkeleton";
 
 interface BaseTrendPoint {
   completion_index: number;
@@ -137,6 +138,10 @@ export function ImprovementTrendScatterPlot() {
   const { points, slope } = useMemo(() => buildTrendModel(data.features), [data.features]);
   const trendDirection = useMemo(() => buildTrendLabel(slope), [slope]);
   const hasChartData = points.length > 0;
+
+  if (isLoading) {
+    return <MetricsSectionSkeleton ariaLabel="Improvement trend scatter plot with linear regression" variant="chart" />;
+  }
 
   return (
     <section

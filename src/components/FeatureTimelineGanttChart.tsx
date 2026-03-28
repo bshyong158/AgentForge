@@ -12,6 +12,7 @@ import {
   YAxis,
 } from "recharts";
 import { type FeatureStatus, type MetricsFeature, useMetrics } from "../hooks/useMetrics";
+import { MetricsSectionSkeleton } from "./MetricsSectionSkeleton";
 
 interface TimelinePoint {
   feature_id: number;
@@ -139,6 +140,10 @@ export function FeatureTimelineGanttChart() {
   const chartData = useMemo(() => buildTimelineSeries(data.features), [data.features]);
   const hasChartData = chartData.length > 0;
   const chartHeight = Math.max(320, chartData.length * 34);
+
+  if (isLoading) {
+    return <MetricsSectionSkeleton ariaLabel="Feature timeline Gantt chart" variant="chart" />;
+  }
 
   return (
     <section

@@ -3,6 +3,7 @@
 import { useMemo } from "react";
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { type MetricsFeature, useMetrics } from "../hooks/useMetrics";
+import { MetricsSectionSkeleton } from "./MetricsSectionSkeleton";
 
 interface ScoreBin {
   label: string;
@@ -55,6 +56,10 @@ export function QualityScoreDistributionHistogram() {
   const chartData = useMemo(() => buildDistribution(data.features), [data.features]);
   const scoredFeatures = chartData.reduce((total, point) => total + point.count, 0);
   const hasChartData = scoredFeatures > 0;
+
+  if (isLoading) {
+    return <MetricsSectionSkeleton ariaLabel="Quality score distribution histogram" variant="chart" />;
+  }
 
   return (
     <section className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-5" aria-label="Quality score distribution histogram">

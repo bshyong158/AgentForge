@@ -3,6 +3,7 @@
 import { useMemo } from "react";
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { type MetricsFeature, useMetrics } from "../hooks/useMetrics";
+import { MetricsSectionSkeleton } from "./MetricsSectionSkeleton";
 
 interface DurationPoint {
   feature_id: number;
@@ -51,6 +52,10 @@ export function FeatureDurationAreaChart() {
   const { data, isLoading, error } = useMetrics();
   const chartData = useMemo(() => buildDurationSeries(data.features), [data.features]);
   const hasChartData = chartData.length > 0;
+
+  if (isLoading) {
+    return <MetricsSectionSkeleton ariaLabel="Feature duration area chart" variant="chart" />;
+  }
 
   return (
     <section className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-5" aria-label="Feature duration area chart">

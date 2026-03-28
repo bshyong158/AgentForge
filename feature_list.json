@@ -194,7 +194,7 @@
     "category": "polish",
     "description": "Loading skeleton components with pulse animation shown on every page section while metrics.json is being fetched",
     "verify": "Skeleton placeholders visible during initial load, replaced by real content when data arrives",
-    "passes": false
+    "passes": true
   },
   {
     "id": 29,

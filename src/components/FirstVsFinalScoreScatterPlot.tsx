@@ -12,6 +12,7 @@ import {
   YAxis,
 } from "recharts";
 import { type MetricsFeature, useMetrics } from "../hooks/useMetrics";
+import { MetricsSectionSkeleton } from "./MetricsSectionSkeleton";
 
 interface ScoreComparisonPoint {
   feature_id: number;
@@ -43,6 +44,10 @@ export function FirstVsFinalScoreScatterPlot() {
   const { data, isLoading, error } = useMetrics();
   const chartData = useMemo(() => buildComparisonSeries(data.features), [data.features]);
   const hasChartData = chartData.length > 0;
+
+  if (isLoading) {
+    return <MetricsSectionSkeleton ariaLabel="First attempt versus final score scatter plot" variant="chart" />;
+  }
 
   return (
     <section className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-5" aria-label="First attempt versus final score scatter plot">

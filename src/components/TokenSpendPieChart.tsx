@@ -3,6 +3,7 @@
 import { useMemo } from "react";
 import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 import { useMetrics } from "../hooks/useMetrics";
+import { MetricsSectionSkeleton } from "./MetricsSectionSkeleton";
 
 interface TokenSpendPoint {
   role: "Coder" | "Evaluator";
@@ -29,6 +30,10 @@ export function TokenSpendPieChart() {
   );
   const totalTokens = chartData.reduce((sum, point) => sum + point.tokens, 0);
   const hasChartData = totalTokens > 0;
+
+  if (isLoading) {
+    return <MetricsSectionSkeleton ariaLabel="Token spend split chart" variant="chart" />;
+  }
 
   return (
     <section className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-5" aria-label="Token spend split chart">

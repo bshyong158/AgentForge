@@ -3,6 +3,7 @@
 import { useMemo } from "react";
 import { Bar, BarChart, CartesianGrid, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { type MetricsFeature, useMetrics } from "../hooks/useMetrics";
+import { MetricsSectionSkeleton } from "./MetricsSectionSkeleton";
 
 interface QualityPoint {
   feature_id: number;
@@ -27,6 +28,10 @@ export function QualityScoreBarChart() {
   const { data, isLoading, error } = useMetrics();
   const chartData = useMemo(() => buildQualitySeries(data.features), [data.features]);
   const hasChartData = chartData.length > 0;
+
+  if (isLoading) {
+    return <MetricsSectionSkeleton ariaLabel="Quality score by feature chart" variant="chart" />;
+  }
 
   return (
     <section className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-5" aria-label="Quality score by feature chart">
