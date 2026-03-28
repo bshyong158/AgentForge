@@ -124,7 +124,7 @@
     "category": "quality",
     "description": "Failed/skipped features panel listing any features with status skipped, showing feature description, best score achieved, and skip reason from metrics.json",
     "verify": "Panel shows skipped features if any exist, displays empty state message if none skipped",
-    "passes": false
+    "passes": true
   },
   {
     "id": 19,

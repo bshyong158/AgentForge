@@ -49,3 +49,5 @@ Known issues:
 === Feature #15 PASSED (score: 10/10, 1 attempts, 129s) — 2026-03-28T13:23:01-0700 ===
 
 === Feature #16 PASSED (score: 10/10, 1 attempts, 148s) — 2026-03-28T13:25:34-0700 ===
+
+=== Feature #17 PASSED (score: 10/10, 1 attempts, 157s) — 2026-03-28T13:28:14-0700 ===
