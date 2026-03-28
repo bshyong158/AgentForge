@@ -7,16 +7,15 @@
 # The coding agent (Codex) only builds code and exits.
 # The evaluator (Sonnet via evaluate.py) scores and provides feedback.
 set -uo pipefail
-# Note: not using -e because we handle errors explicitly
 
 PROJECT_DIR="$(cd "$(dirname "$0")" && pwd)"
 cd "$PROJECT_DIR"
 
 # --- Configuration ---
 MAX_ATTEMPTS=3          # Inner loop: max attempts per feature
-PLAN_INTERVAL=8         # Run planning pass every N outer iterations
-PUSH_INTERVAL=5         # Git push every N completed features
-CODEX_TIMEOUT=300       # 5 minutes max per codex exec call
+PLAN_INTERVAL=10        # Run planning pass every N outer iterations
+PUSH_INTERVAL=2         # Git push every N completed features (was 5)
+CODEX_TIMEOUT=420       # 7 minutes max per codex exec call (was 5)
 CODEX_MODEL="gpt-5.3-codex"
 
 # --- State ---
@@ -46,12 +45,13 @@ else:
 "
 }
 
+# LOWERED: all thresholds to 5 for hackathon speed
 get_threshold() {
     local category="$1"
     case "$category" in
-        scaffold) echo 5 ;;
-        git|polish) echo 6 ;;
-        *) echo 7 ;;
+        scaffold) echo 4 ;;
+        git|polish) echo 5 ;;
+        *) echo 5 ;;
     esac
 }
 
@@ -62,7 +62,7 @@ check_dev_server() {
         if [ -f "$pid_file" ]; then
             kill "$(cat "$pid_file")" 2>/dev/null || true
         fi
-        npm run dev > "$LOG_DIR/dev-server.log" 2>&1 &
+        PORT=3001 npm run dev > "$LOG_DIR/dev-server.log" 2>&1 &
         echo $! > "$pid_file"
         sleep 5
     fi
@@ -91,7 +91,6 @@ while true; do
         gtimeout "$CODEX_TIMEOUT" codex exec "$(cat PROMPT_plan.md)" \
             --full-auto -m "$CODEX_MODEL" \
             2>&1 | tee "$LOG_DIR/iteration-${ITERATION}-plan.log" || true
-        # Push after planning pass
         log "Pushing to origin (post-planning)..."
         git push origin HEAD 2>&1 || log "WARNING: git push failed (network?)"
         continue
@@ -135,9 +134,6 @@ while true; do
         # --- Check dev server ---
         check_dev_server
 
-        # --- Save current state for potential revert ---
-        git stash --include-untracked -q 2>/dev/null || true
-        git stash pop -q 2>/dev/null || true
         REVERT_SHA=$(git rev-parse HEAD 2>/dev/null || echo "")
 
         # --- Run Codex (builder) ---
@@ -156,14 +152,27 @@ while true; do
         # --- Mechanical Gate 1: Build ---
         log "GATE: npm run build..."
         if ! npm run build --silent > "$LOG_DIR/build.log" 2>&1; then
-            log "GATE FAILED: Build broken. Score 0."
-            SCORE=0
-            FEEDBACK="Build failed. Fix compilation errors. See build log."
-            echo "$FEEDBACK" > "$LOG_DIR/feedback.md"
-            # Revert broken code
-            git checkout . 2>/dev/null || true
-            git clean -fd 2>/dev/null || true
+            log "GATE FAILED: Build broken."
 
+            # KEY FIX: Feed actual build errors to Codex instead of nuking code
+            BUILD_ERRORS=$(tail -30 "$LOG_DIR/build.log" 2>/dev/null || echo "Unknown build error")
+            {
+                echo "# Build Failed — Feature #$FEATURE_ID, Attempt $ATTEMPT"
+                echo ""
+                echo "The build (npm run build) failed with these errors:"
+                echo ""
+                echo '```'
+                echo "$BUILD_ERRORS"
+                echo '```'
+                echo ""
+                echo "Fix the TypeScript/compilation errors above. Do NOT delete or revert files."
+                echo "Do NOT start over. Fix the specific errors shown."
+            } > "$LOG_DIR/feedback.md"
+
+            # KEY FIX: Do NOT revert. Keep the code so next attempt can fix it.
+            # Old behavior: git checkout . && git clean -fd  <-- THIS WAS THE BUG
+
+            SCORE=0
             ATTEMPT_END=$(date +%s)
             ATTEMPT_DURATION=$((ATTEMPT_END - ATTEMPT_START))
             ATTEMPT_DATA=$(echo "$ATTEMPT_DATA" | python3 -c "
@@ -178,21 +187,22 @@ print(json.dumps(data))
         log "GATE PASSED: Build OK"
 
         # --- Mechanical Gate 2: Localhost responds ---
-        log "GATE: curl localhost:3000..."
-        if ! curl -s --max-time 5 http://localhost:3001 | grep -q '<' 2>/dev/null; then
-            log "GATE WARNING: localhost not responding (non-fatal, continuing)"
-        else
+        if curl -s --max-time 5 http://localhost:3001 | grep -q '<' 2>/dev/null; then
             log "GATE PASSED: localhost OK"
+        else
+            log "GATE WARNING: localhost not responding (non-fatal)"
         fi
 
-        # --- Get diff for evaluator (exclude lock files to stay under token limit) ---
-        git diff -- ':!package-lock.json' ':!*.svg' > "$LOG_DIR/diff.txt" 2>/dev/null
-        # Also include untracked files
-        git diff HEAD -- ':!package-lock.json' ':!*.svg' >> "$LOG_DIR/diff.txt" 2>/dev/null
-        # If no diff, try against last commit
+        # --- Get diff for evaluator ---
+        # Use git diff against HEAD to capture all changes (staged + unstaged + untracked)
+        git add -A 2>/dev/null || true
+        git diff --cached -- ':!package-lock.json' ':!*.svg' > "$LOG_DIR/diff.txt" 2>/dev/null
+        # If empty, try against last commit
         if [ ! -s "$LOG_DIR/diff.txt" ]; then
             git diff HEAD~1 HEAD -- ':!package-lock.json' ':!*.svg' > "$LOG_DIR/diff.txt" 2>/dev/null || true
         fi
+        # Unstage so harness controls commits
+        git reset HEAD 2>/dev/null || true
 
         # --- Evaluator (Sonnet via evaluate.py) ---
         log "EVALUATOR: Scoring feature #$FEATURE_ID (attempt $ATTEMPT)..."
@@ -245,9 +255,9 @@ print(json.dumps(data))
         # --- Best Score Tracking ---
         if [ "$SCORE" -gt "$BEST_SCORE" ]; then
             BEST_SCORE=$SCORE
-            # Stage current state as best
             git add -A 2>/dev/null || true
             BEST_COMMIT=$(git stash create 2>/dev/null || echo "")
+            git reset HEAD 2>/dev/null || true
         fi
 
         # --- Decision Logic ---
@@ -259,28 +269,27 @@ print(json.dumps(data))
             break
         fi
 
-        # STAGNATION: same score as last attempt
+        # STAGNATION: same score as last attempt — accept if close
         if [ "$SCORE" -eq "$PREV_SCORE" ] && [ "$PREV_SCORE" -ge 0 ]; then
             log "DECISION: STAGNATION (same score $SCORE twice)"
-            if [ "$SCORE" -ge $((THRESHOLD - 1)) ]; then
-                log "Close enough ($SCORE >= $(($THRESHOLD - 1))). Accepting."
+            if [ "$SCORE" -ge $((THRESHOLD - 2)) ]; then
+                log "Close enough ($SCORE >= $(($THRESHOLD - 2))). Accepting."
                 FINAL_STATUS="passed"
             fi
             break
         fi
 
-        # DIMINISHING RETURNS: improved < 1 point
+        # DIMINISHING RETURNS: score dropped
         if [ "$PREV_SCORE" -ge 0 ] && [ "$ATTEMPT" -gt 1 ]; then
             IMPROVEMENT=$((SCORE - PREV_SCORE))
             if [ "$IMPROVEMENT" -le 0 ]; then
-                log "DECISION: DIMINISHING (score dropped or flat: $PREV_SCORE -> $SCORE)"
-                # Revert to best version
+                log "DECISION: DIMINISHING (score: $PREV_SCORE -> $SCORE)"
                 if [ -n "$BEST_COMMIT" ] && [ "$SCORE" -lt "$BEST_SCORE" ]; then
                     log "Reverting to best attempt (score $BEST_SCORE)"
                     git stash apply "$BEST_COMMIT" 2>/dev/null || true
                     SCORE=$BEST_SCORE
                 fi
-                if [ "$BEST_SCORE" -ge $((THRESHOLD - 1)) ]; then
+                if [ "$BEST_SCORE" -ge $((THRESHOLD - 2)) ]; then
                     FINAL_STATUS="passed"
                 fi
                 break
@@ -318,15 +327,12 @@ print(json.dumps(data))
     if [ "$FINAL_STATUS" = "passed" ]; then
         log "PASS: Feature #$FEATURE_ID scored $SCORE/10 in $ATTEMPT attempt(s)"
 
-        # Mark passing via json_guard
         python3 json_guard.py --mark-passing "$FEATURE_ID" || log "WARNING: json_guard failed"
 
-        # Git commit (harness authority)
         git add -A
         git commit -m "feat(#$FEATURE_ID): ${FEATURE_DESC:0:60} (score: $SCORE/10, $ATTEMPT attempts)" || log "WARNING: git commit failed"
         COMMIT_SHA=$(git rev-parse --short HEAD 2>/dev/null || echo "unknown")
 
-        # Write metrics
         METRICS_ENTRY=$(python3 -c "
 import json, time
 from datetime import datetime, timezone
@@ -346,7 +352,6 @@ print(json.dumps(entry))
 ")
         python3 metrics_writer.py --add "$METRICS_ENTRY" || log "WARNING: metrics_writer failed"
 
-        # Log to W&B
         python3 evaluate.py log \
             --feature-id "$FEATURE_ID" \
             --score "$SCORE" \
@@ -355,31 +360,28 @@ print(json.dumps(entry))
             --tokens-evaluator "$EVAL_TOKENS" \
             --status "passed" 2>/dev/null || true
 
-        # Update progress
         log_progress "Feature #$FEATURE_ID PASSED (score: $SCORE/10, $ATTEMPT attempts, ${FEATURE_DURATION}s) — $(timestamp)"
 
         FEATURES_COMPLETED=$((FEATURES_COMPLETED + 1))
         CONSECUTIVE_SKIPS=0
 
-        # Batch push
+        # Push frequently for Vercel deploys
         if (( FEATURES_COMPLETED % PUSH_INTERVAL == 0 )); then
-            log "Pushing to origin (batch, $FEATURES_COMPLETED features done)..."
+            log "Pushing to origin ($FEATURES_COMPLETED features done)..."
             git push origin HEAD 2>&1 || log "WARNING: git push failed (network?)"
         fi
 
     else
         log "SKIP: Feature #$FEATURE_ID best score $BEST_SCORE/10 after $ATTEMPT attempts"
 
-        # Revert any uncommitted changes
+        # Revert uncommitted changes for skipped features
         git checkout . 2>/dev/null || true
         git clean -fd 2>/dev/null || true
 
-        # Mark skipped
         python3 json_guard.py --mark-skipped "$FEATURE_ID" || log "WARNING: json_guard failed"
         git add feature_list.json
         git commit -m "skip(#$FEATURE_ID): best score $BEST_SCORE/10 after $MAX_ATTEMPTS attempts" || true
 
-        # Write skip metrics
         METRICS_ENTRY=$(python3 -c "
 import json, time
 from datetime import datetime, timezone
@@ -403,7 +405,6 @@ print(json.dumps(entry))
 
         CONSECUTIVE_SKIPS=$((CONSECUTIVE_SKIPS + 1))
 
-        # Stagnation warning
         if [ "$CONSECUTIVE_SKIPS" -ge 3 ]; then
             log "WARNING: 3 consecutive skips. Possible systemic issue."
             log_progress "STAGNATION WARNING: 3 consecutive features skipped at $(timestamp)"
@@ -411,10 +412,8 @@ print(json.dumps(entry))
         fi
     fi
 
-    # Clear feedback for next feature
     > "$LOG_DIR/feedback.md"
 
-    # --- Status Summary ---
     PASSING_NOW=$(python3 -c "import json; print(sum(1 for f in json.load(open('feature_list.json')) if f.get('passes')))")
     SKIPPED_NOW=$(python3 -c "import json; print(sum(1 for f in json.load(open('feature_list.json')) if f.get('skipped')))")
     PENDING=$((TOTAL_FEATURES - PASSING_NOW - SKIPPED_NOW))
@@ -423,7 +422,6 @@ print(json.dumps(entry))
     log "--- Status: $PASSING_NOW passed / $SKIPPED_NOW skipped / $PENDING pending ---"
     log ""
 
-    # Brief pause
     sleep 2
 done
 

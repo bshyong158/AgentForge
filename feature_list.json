@@ -11,16 +11,14 @@
     "category": "scaffold",
     "description": "App shell with sidebar nav containing links: Overview, Timeline, Quality, Features, Tokens, Git. Header with project title. Responsive layout with sidebar + main content area.",
     "verify": "Sidebar renders with 6 nav links, clicking each changes active state, main content area fills remaining width",
-    "passes": false,
-    "skipped": true
+    "passes": false
   },
   {
     "id": 3,
     "category": "scaffold",
     "description": "Dark mode toggle button in header that persists preference to localStorage and applies Tailwind dark classes across the entire app",
     "verify": "Toggle switches between light and dark themes, preference survives page reload",
-    "passes": false,
-    "skipped": true
+    "passes": false
   },
   {
     "id": 4,
