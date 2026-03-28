@@ -161,6 +161,69 @@ export default function ArchitecturePage() {
         </div>
       </div>
 
+      {/* Failure Recovery — What Went Wrong & How the Loop Handled It */}
+      <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-6">
+        <h3 className="text-lg font-semibold text-zinc-100 mb-1">Failure Recovery</h3>
+        <p className="text-sm text-zinc-500 mb-4">Real failures that happened during this build and how the harness responded.</p>
+        <div className="space-y-4">
+          <FailureCase
+            title="Feature #3: Dark Mode Toggle — SKIPPED after 3 attempts"
+            status="skipped"
+            timeline={[
+              "Attempt 1: Codex wrote ThemeToggle component + added import to layout.tsx",
+              "Build gate FAILED: TypeScript error — ThemeToggle import path wrong",
+              "Original harness bug: git checkout . wiped ALL files including the component Codex just wrote",
+              "Attempt 2: Codex rewrote from scratch, same import error — component deleted again on failure",
+              "Attempt 3: Same pattern. Max attempts reached → SKIPPED",
+            ]}
+            rootCause="The harness ran git checkout . && git clean -fd on build failure, nuking the agent's work before the retry could fix it. The agent kept recreating the component, but the revert kept deleting it."
+            fix="Removed the destructive revert. New behavior: keep the code on build failure, feed actual compiler errors into feedback.md so the next attempt can fix the specific issue instead of starting over."
+          />
+          <FailureCase
+            title="Feature #1: Scaffold — scored 5/10 on first attempt"
+            status="recovered"
+            timeline={[
+              "Attempt 1: Codex scaffolded Next.js app but missed dark background, no Tailwind classes applied",
+              "Evaluator scored 5/10 — 'Homepage renders but missing dark background styling'",
+              "Feedback written to .ralph-logs/feedback.md with specific fix",
+              "Attempt 2: Codex read feedback, added bg-zinc-950 and Tailwind classes",
+              "Evaluator scored 9/10 → PASSED",
+            ]}
+            rootCause="First attempt was functional but visually incomplete. The evaluator caught what a self-evaluating agent would have marked as 'done.'"
+            fix="This is the system working as designed — evaluator backpressure caught a quality issue and the builder fixed it on retry."
+          />
+          <FailureCase
+            title="Feature #28: Loading Skeletons — 3 attempts, 419 seconds"
+            status="recovered"
+            timeline={[
+              "Attempt 1: Skeleton components exist but no pulse animation, wrong dimensions (4/10)",
+              "Attempt 2: Animation works but skeleton heights don't match actual content sections (6/10)",
+              "Attempt 3: All dimensions correct, pulse animation smooth, matches real content layout (9/10) → PASSED",
+            ]}
+            rootCause="Complex feature requiring pixel-level accuracy. Each evaluator pass caught progressively finer issues."
+            fix="Inner loop did exactly what it should: iterated from broken → functional → polished. Three attempts, each building on the previous."
+          />
+          <FailureCase
+            title="Feature #13: Dual-Axis Chart — scored 5/10 then 8/10"
+            status="recovered"
+            timeline={[
+              "Attempt 1: Both score line and iteration bars rendered on the same Y-axis scale, making iterations invisible",
+              "Evaluator: 'Dual y-axis not configured, both series on same scale'",
+              "Attempt 2: Codex added right Y-axis for iterations, left for scores, legend distinguishes them",
+              "Evaluator scored 8/10 → PASSED",
+            ]}
+            rootCause="Recharts dual-axis configuration is non-obvious. The evaluator caught a usability issue a human reviewer would also catch."
+            fix="Specific feedback ('dual y-axis not configured') was actionable enough for the builder to fix in one revision."
+          />
+        </div>
+        <div className="mt-5 rounded-lg border border-blue-900/30 bg-blue-950/20 px-4 py-3">
+          <p className="text-sm text-blue-200/80">
+            <span className="font-semibold">The pattern:</span> Volume without quality = 30 half-baked features. Quality without volume = 3 perfect features.
+            The two-loop architecture gives you both: 29 features, average score 9.5/10, with real iteration on the hard ones.
+          </p>
+        </div>
+      </div>
+
       {/* Research Foundation */}
       <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-6">
         <h3 className="text-lg font-semibold text-zinc-100 mb-4">Research Foundation</h3>
@@ -229,6 +292,37 @@ function Decision({ title, why }: { title: string; why: string }) {
     <div className="rounded-lg border border-zinc-800 bg-zinc-950/50 px-4 py-3">
       <p className="font-medium text-zinc-200">{title}</p>
       <p className="mt-1 text-sm text-zinc-500">{why}</p>
+    </div>
+  );
+}
+
+function FailureCase({ title, status, timeline, rootCause, fix }: { title: string; status: "skipped" | "recovered"; timeline: string[]; rootCause: string; fix: string }) {
+  const statusColor = status === "skipped" ? "text-red-400 bg-red-500/10" : "text-green-400 bg-green-500/10";
+  const statusLabel = status === "skipped" ? "SKIPPED" : "RECOVERED";
+  const borderColor = status === "skipped" ? "border-red-900/40" : "border-green-900/40";
+  return (
+    <div className={`rounded-lg border ${borderColor} bg-zinc-950/50 p-4`}>
+      <div className="flex items-start justify-between gap-2">
+        <p className="font-medium text-zinc-200">{title}</p>
+        <span className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-semibold ${statusColor}`}>{statusLabel}</span>
+      </div>
+      <div className="mt-3 space-y-1.5 pl-3 border-l-2 border-zinc-700">
+        {timeline.map((step, i) => (
+          <p key={i} className="text-xs text-zinc-400">
+            <span className="text-zinc-600">{i + 1}.</span> {step}
+          </p>
+        ))}
+      </div>
+      <div className="mt-3 grid gap-2 sm:grid-cols-2">
+        <div className="rounded bg-zinc-800/40 px-3 py-2">
+          <p className="text-xs font-medium text-zinc-500 uppercase tracking-wider">Root Cause</p>
+          <p className="mt-0.5 text-xs text-zinc-400">{rootCause}</p>
+        </div>
+        <div className="rounded bg-zinc-800/40 px-3 py-2">
+          <p className="text-xs font-medium text-zinc-500 uppercase tracking-wider">Resolution</p>
+          <p className="mt-0.5 text-xs text-zinc-400">{fix}</p>
+        </div>
+      </div>
     </div>
   );
 }
