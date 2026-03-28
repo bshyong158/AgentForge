@@ -56,7 +56,7 @@ get_threshold() {
 }
 
 check_dev_server() {
-    if ! curl -s --max-time 3 http://localhost:3000 > /dev/null 2>&1; then
+    if ! curl -s --max-time 3 http://localhost:3001 > /dev/null 2>&1; then
         log "Dev server down. Restarting..."
         local pid_file=".dev-pid"
         if [ -f "$pid_file" ]; then
@@ -179,19 +179,19 @@ print(json.dumps(data))
 
         # --- Mechanical Gate 2: Localhost responds ---
         log "GATE: curl localhost:3000..."
-        if ! curl -s --max-time 5 http://localhost:3000 | grep -q '<' 2>/dev/null; then
+        if ! curl -s --max-time 5 http://localhost:3001 | grep -q '<' 2>/dev/null; then
             log "GATE WARNING: localhost not responding (non-fatal, continuing)"
         else
             log "GATE PASSED: localhost OK"
         fi
 
-        # --- Get diff for evaluator ---
-        git diff > "$LOG_DIR/diff.txt" 2>/dev/null
+        # --- Get diff for evaluator (exclude lock files to stay under token limit) ---
+        git diff -- ':!package-lock.json' ':!*.svg' > "$LOG_DIR/diff.txt" 2>/dev/null
         # Also include untracked files
-        git diff HEAD >> "$LOG_DIR/diff.txt" 2>/dev/null
+        git diff HEAD -- ':!package-lock.json' ':!*.svg' >> "$LOG_DIR/diff.txt" 2>/dev/null
         # If no diff, try against last commit
         if [ ! -s "$LOG_DIR/diff.txt" ]; then
-            git diff HEAD~1 HEAD > "$LOG_DIR/diff.txt" 2>/dev/null || true
+            git diff HEAD~1 HEAD -- ':!package-lock.json' ':!*.svg' > "$LOG_DIR/diff.txt" 2>/dev/null || true
         fi
 
         # --- Evaluator (Sonnet via evaluate.py) ---
