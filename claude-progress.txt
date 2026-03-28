@@ -39,3 +39,5 @@ Known issues:
 - `npm run build` passed via offline scaffold validation because `node_modules` is missing; full Next.js compile was not exercised.
 - `http://localhost:3000` is down (no responding dev server process).
 - `public/metrics.json` currently has zero features, so charts/cards were validated only for empty-state behavior.
+
+=== Feature #12 PASSED (score: 10/10, 1 attempts, 86s) — 2026-03-28T13:16:41-0700 ===

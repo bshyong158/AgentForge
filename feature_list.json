@@ -89,7 +89,7 @@
     "category": "timeline",
     "description": "Combined recharts chart overlaying quality score line and iteration count bars on the same axes with dual y-axis (left: score 0-10, right: iterations 0-5)",
     "verify": "Both series render on same chart, dual y-axes labeled correctly, legend distinguishes them",
-    "passes": false
+    "passes": true
   },
   {
     "id": 14,

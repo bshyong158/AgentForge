@@ -1,6 +1,7 @@
 import { CumulativeCompletionChart } from "../../components/CumulativeCompletionChart";
 import { FeatureDurationAreaChart } from "../../components/FeatureDurationAreaChart";
 import { IterationsStackedBarChart } from "../../components/IterationsStackedBarChart";
+import { QualityIterationsCombinedChart } from "../../components/QualityIterationsCombinedChart";
 import { QualityScoreBarChart } from "../../components/QualityScoreBarChart";
 
 export default function TimelinePage() {
@@ -12,6 +13,7 @@ export default function TimelinePage() {
       <QualityScoreBarChart />
       <FeatureDurationAreaChart />
       <IterationsStackedBarChart />
+      <QualityIterationsCombinedChart />
     </section>
   );
 }
