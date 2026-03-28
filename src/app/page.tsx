@@ -94,7 +94,7 @@ function linearRegression(pts: { x: number; y: number }[]): { slope: number; int
 
 function StatCard({ label, value, sub, color }: { label: string; value: string; sub?: string; color: string }) {
   return (
-    <div className="rounded-xl border border-zinc-800 bg-zinc-900/60 p-5">
+    <div className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-200 dark:bg-zinc-900/60 p-5">
       <p className="text-xs font-medium uppercase tracking-wider text-zinc-500">{label}</p>
       <p className="mt-1 text-3xl font-bold" style={{ color }}>{value}</p>
       {sub && <p className="mt-1 text-sm text-zinc-500">{sub}</p>}
@@ -103,7 +103,7 @@ function StatCard({ label, value, sub, color }: { label: string; value: string; 
 }
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
-  return <h2 className="mt-10 mb-4 text-lg font-semibold text-zinc-300 border-b border-zinc-800 pb-2">{children}</h2>;
+  return <h2 className="mt-10 mb-4 text-lg font-semibold text-zinc-700 dark:text-zinc-300 border-b border-zinc-200 dark:border-zinc-800 pb-2">{children}</h2>;
 }
 
 function EmptyState({ msg }: { msg: string }) {
@@ -144,7 +144,7 @@ export default function Dashboard() {
 
   if (!metrics) {
     return (
-      <main className="min-h-screen bg-zinc-950 flex items-center justify-center">
+      <main className="min-h-screen bg-zinc-100 dark:bg-zinc-950 flex items-center justify-center">
         <div className="text-zinc-500 animate-pulse text-lg">Loading metrics...</div>
       </main>
     );
@@ -233,12 +233,12 @@ export default function Dashboard() {
   const noData = metrics.features.length === 0;
 
   return (
-    <main className="min-h-screen bg-zinc-950 text-zinc-100">
+    <main className="min-h-screen bg-zinc-100 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100">
       {/* Header */}
-      <header className="sticky top-0 z-50 border-b border-zinc-800 bg-zinc-950/90 backdrop-blur px-6 py-4 flex items-center justify-between">
+      <header className="sticky top-0 z-50 border-b border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-950/90 backdrop-blur px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <h1 className="text-2xl font-bold tracking-tight">AgentForge</h1>
-          <span className="text-xs text-zinc-600 bg-zinc-800 rounded-full px-2 py-0.5">
+          <span className="text-xs text-zinc-600 bg-zinc-300 dark:bg-zinc-800 rounded-full px-2 py-0.5">
             {metrics.started_at ? 'LIVE' : 'IDLE'}
           </span>
           {metrics.started_at && (
@@ -285,7 +285,7 @@ export default function Dashboard() {
         </div>
 
         {/* Progress bar */}
-        <div className="mt-6 h-3 rounded-full bg-zinc-800 overflow-hidden">
+        <div className="mt-6 h-3 rounded-full bg-zinc-300 dark:bg-zinc-800 overflow-hidden">
           <div
             className="h-full rounded-full transition-all duration-700 ease-out"
             style={{
@@ -309,7 +309,7 @@ export default function Dashboard() {
             <SectionTitle>Build Timeline</SectionTitle>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Cumulative completion */}
-              <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
+              <div className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900/40 p-4">
                 <p className="text-sm text-zinc-500 mb-3">Cumulative Features Completed</p>
                 <ResponsiveContainer width="100%" height={220}>
                   <AreaChart data={cumulativeData}>
@@ -330,7 +330,7 @@ export default function Dashboard() {
               </div>
 
               {/* Score per feature */}
-              <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
+              <div className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900/40 p-4">
                 <p className="text-sm text-zinc-500 mb-3">Quality Score per Feature</p>
                 <ResponsiveContainer width="100%" height={220}>
                   <ComposedChart data={scoreData}>
@@ -359,7 +359,7 @@ export default function Dashboard() {
               </div>
 
               {/* Iterations per feature */}
-              <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
+              <div className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900/40 p-4">
                 <p className="text-sm text-zinc-500 mb-3">Iterations per Feature</p>
                 <ResponsiveContainer width="100%" height={220}>
                   <BarChart data={iterData}>
@@ -375,7 +375,7 @@ export default function Dashboard() {
               </div>
 
               {/* Duration per feature */}
-              <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
+              <div className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900/40 p-4">
                 <p className="text-sm text-zinc-500 mb-3">Time per Feature (min)</p>
                 {durationData.length > 0 ? (
                   <ResponsiveContainer width="100%" height={220}>
@@ -401,7 +401,7 @@ export default function Dashboard() {
             <SectionTitle>Quality Analysis</SectionTitle>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Improvement trend */}
-              <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
+              <div className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900/40 p-4">
                 <p className="text-sm text-zinc-500 mb-1">Score Improvement Trend</p>
                 <p className="text-xs mb-3" style={{ color: reg.slope > 0 ? COLORS.green : reg.slope < 0 ? COLORS.red : COLORS.amber }}>
                   Slope: {reg.slope > 0 ? '+' : ''}{reg.slope.toFixed(3)} per feature {reg.slope > 0 ? '(improving)' : reg.slope < 0 ? '(declining)' : '(stable)'}
@@ -433,7 +433,7 @@ export default function Dashboard() {
               </div>
 
               {/* First vs Final scatter */}
-              <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
+              <div className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900/40 p-4">
                 <p className="text-sm text-zinc-500 mb-3">First Attempt vs Final Score</p>
                 {scatterData.length > 0 ? (
                   <ResponsiveContainer width="100%" height={220}>
@@ -450,7 +450,7 @@ export default function Dashboard() {
               </div>
 
               {/* Category breakdown */}
-              <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
+              <div className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900/40 p-4">
                 <p className="text-sm text-zinc-500 mb-3">Average Score by Category</p>
                 {categoryData.length > 0 ? (
                   <ResponsiveContainer width="100%" height={220}>
@@ -470,7 +470,7 @@ export default function Dashboard() {
               </div>
 
               {/* Token split */}
-              <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
+              <div className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900/40 p-4">
                 <p className="text-sm text-zinc-500 mb-3">Token Split: Coder vs Evaluator</p>
                 {totalTokens > 0 ? (
                   <ResponsiveContainer width="100%" height={220}>
@@ -500,7 +500,7 @@ export default function Dashboard() {
             {costData.length > 0 && (
               <>
                 <SectionTitle>Token Economics</SectionTitle>
-                <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
+                <div className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900/40 p-4">
                   <p className="text-sm text-zinc-500 mb-3">Cost per Feature (shows if agent gets more efficient)</p>
                   <ResponsiveContainer width="100%" height={200}>
                     <LineChart data={costData}>
@@ -517,9 +517,9 @@ export default function Dashboard() {
 
             {/* ── Feature Table ──────────────────────────────────────── */}
             <SectionTitle>Feature Log</SectionTitle>
-            <div className="rounded-xl border border-zinc-800 overflow-hidden">
+            <div className="rounded-xl border border-zinc-200 dark:border-zinc-800 overflow-hidden">
               <table className="w-full text-sm">
-                <thead className="bg-zinc-900 text-zinc-500 text-xs uppercase">
+                <thead className="bg-zinc-200 dark:bg-zinc-900 text-zinc-500 text-xs uppercase">
                   <tr>
                     <th className="px-4 py-3 text-left">ID</th>
                     <th className="px-4 py-3 text-left">Description</th>
@@ -529,18 +529,18 @@ export default function Dashboard() {
                     <th className="px-4 py-3 text-center">Status</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-zinc-800">
+                <tbody className="divide-y divide-zinc-200 dark:divide-zinc-800">
                   {metrics.features.map(f => (
-                    <tr key={f.id} className="hover:bg-zinc-900/50 cursor-pointer" onClick={() => setExpandedFeature(expandedFeature === f.id ? null : f.id)}>
-                      <td className="px-4 py-3 text-zinc-400">#{f.id}</td>
-                      <td className="px-4 py-3 text-zinc-200 max-w-xs truncate">{f.description}</td>
+                    <tr key={f.id} className="hover:bg-zinc-100/80 dark:hover:bg-zinc-900/50 cursor-pointer" onClick={() => setExpandedFeature(expandedFeature === f.id ? null : f.id)}>
+                      <td className="px-4 py-3 text-zinc-600 dark:text-zinc-400">#{f.id}</td>
+                      <td className="px-4 py-3 text-zinc-800 dark:text-zinc-200 max-w-xs truncate">{f.description}</td>
                       <td className="px-4 py-3">
                         <span className="text-xs rounded px-2 py-0.5" style={{ background: `${CATEGORY_COLORS[f.category] || COLORS.zinc}22`, color: CATEGORY_COLORS[f.category] || COLORS.zinc }}>
                           {f.category}
                         </span>
                       </td>
                       <td className="px-4 py-3 text-center"><Badge score={f.final_score} /></td>
-                      <td className="px-4 py-3 text-center text-zinc-400">{f.attempts.length}</td>
+                      <td className="px-4 py-3 text-center text-zinc-600 dark:text-zinc-400">{f.attempts.length}</td>
                       <td className="px-4 py-3 text-center">
                         {f.status === 'passed'
                           ? <span className="text-green-400 text-xs font-semibold">PASSED</span>
@@ -556,12 +556,12 @@ export default function Dashboard() {
                 const f = metrics.features.find(f => f.id === expandedFeature);
                 if (!f) return null;
                 return (
-                  <div className="bg-zinc-900 border-t border-zinc-800 px-6 py-4">
+                  <div className="bg-zinc-200 dark:bg-zinc-900 border-t border-zinc-200 dark:border-zinc-800 px-6 py-4">
                     <p className="text-xs font-semibold text-zinc-500 mb-2">Evaluator Feedback — Feature #{f.id}</p>
                     {f.attempts.map((att, i) => (
                       <div key={i} className="mb-2 pl-3 border-l-2" style={{ borderColor: att.score >= 7 ? COLORS.green : COLORS.amber }}>
                         <p className="text-xs text-zinc-500">Attempt {att.iteration} — <Badge score={att.score} /></p>
-                        <p className="text-sm text-zinc-400 mt-0.5 whitespace-pre-wrap">{att.feedback || 'No feedback recorded'}</p>
+                        <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-0.5 whitespace-pre-wrap">{att.feedback || 'No feedback recorded'}</p>
                       </div>
                     ))}
                   </div>
@@ -578,7 +578,7 @@ export default function Dashboard() {
                     <div key={f.id} className="rounded-lg border border-red-900/30 bg-red-950/20 px-4 py-3 flex justify-between items-center">
                       <div>
                         <span className="text-zinc-500 text-xs mr-2">#{f.id}</span>
-                        <span className="text-zinc-300 text-sm">{f.description}</span>
+                        <span className="text-zinc-700 dark:text-zinc-300 text-sm">{f.description}</span>
                       </div>
                       <Badge score={f.final_score} />
                     </div>
