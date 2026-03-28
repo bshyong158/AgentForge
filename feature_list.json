@@ -152,7 +152,7 @@
     "category": "features",
     "description": "Feature timeline visualization showing horizontal bars per feature in a Gantt-style layout with bar width proportional to duration and position based on start time",
     "verify": "Bars render horizontally, width proportional to duration_sec, ordered by started_at timestamp",
-    "passes": false
+    "passes": true
   },
   {
     "id": 23,
