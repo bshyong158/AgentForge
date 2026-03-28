@@ -1,0 +1,6 @@
+=== AgentForge Progress Log ===
+Project: Booking Dashboard for Short-Term Rental Properties
+Started: [will be filled by first iteration]
+
+Features: 0/30 passing
+Commits: 0

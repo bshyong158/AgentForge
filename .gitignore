@@ -1,0 +1,7 @@
+node_modules/
+.next/
+.ralph-logs/
+.dev-pid
+.env
+.env.local
+.vercel
