@@ -19,7 +19,8 @@
     "category": "scaffold",
     "description": "Dark mode toggle button in header that persists preference to localStorage and applies Tailwind dark classes across the entire app",
     "verify": "Toggle switches between light and dark themes, preference survives page reload",
-    "passes": false
+    "passes": false,
+    "skipped": true
   },
   {
     "id": 4,
