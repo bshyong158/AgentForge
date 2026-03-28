@@ -28,7 +28,7 @@
       "final_score": 9,
       "started_at": "2026-03-28T12:51:40-07:00",
       "completed_at": "2026-03-28T12:54:40-07:00",
-      "lines_added": 0,
+      "lines_added": 188,
       "commit_sha": "b5460df"
     },
     {
@@ -57,7 +57,7 @@
       "final_score": 9,
       "started_at": "2026-03-28T12:54:40-07:00",
       "completed_at": "2026-03-28T12:56:52-07:00",
-      "lines_added": 0,
+      "lines_added": 120,
       "commit_sha": "74c6ebe"
     },
     {
@@ -115,7 +115,7 @@
       "final_score": 10,
       "started_at": "2026-03-28T12:56:52-07:00",
       "completed_at": "2026-03-28T12:59:51-07:00",
-      "lines_added": 0,
+      "lines_added": 250,
       "commit_sha": "20345f9"
     },
     {
@@ -144,7 +144,7 @@
       "final_score": 9,
       "started_at": "2026-03-28T12:59:51-07:00",
       "completed_at": "2026-03-28T13:01:29-07:00",
-      "lines_added": 0,
+      "lines_added": 68,
       "commit_sha": "7bc6369"
     },
     {
@@ -173,7 +173,7 @@
       "final_score": 9,
       "started_at": "2026-03-28T13:01:29-07:00",
       "completed_at": "2026-03-28T13:03:29-07:00",
-      "lines_added": 0,
+      "lines_added": 131,
       "commit_sha": "e47765c"
     },
     {
@@ -194,7 +194,7 @@
       "final_score": 10,
       "started_at": "2026-03-28T13:03:29-07:00",
       "completed_at": "2026-03-28T13:04:57-07:00",
-      "lines_added": 0,
+      "lines_added": 40,
       "commit_sha": "72c8769"
     },
     {
@@ -215,7 +215,7 @@
       "final_score": 10,
       "started_at": "2026-03-28T13:04:57-07:00",
       "completed_at": "2026-03-28T13:06:23-07:00",
-      "lines_added": 0,
+      "lines_added": 55,
       "commit_sha": "70c6af3"
     },
     {
@@ -236,7 +236,7 @@
       "final_score": 10,
       "started_at": "2026-03-28T13:06:23-07:00",
       "completed_at": "2026-03-28T13:08:43-07:00",
-      "lines_added": 0,
+      "lines_added": 127,
       "commit_sha": "7a92bad"
     },
     {
@@ -257,7 +257,7 @@
       "final_score": 10,
       "started_at": "2026-03-28T13:08:43-07:00",
       "completed_at": "2026-03-28T13:10:37-07:00",
-      "lines_added": 0,
+      "lines_added": 76,
       "commit_sha": "bc714b1"
     },
     {
@@ -278,7 +278,7 @@
       "final_score": 10,
       "started_at": "2026-03-28T13:10:37-07:00",
       "completed_at": "2026-03-28T13:12:25-07:00",
-      "lines_added": 0,
+      "lines_added": 111,
       "commit_sha": "1b048d6"
     },
     {
@@ -299,7 +299,7 @@
       "final_score": 10,
       "started_at": "2026-03-28T13:12:25-07:00",
       "completed_at": "2026-03-28T13:16:40-07:00",
-      "lines_added": 0,
+      "lines_added": 137,
       "commit_sha": "91a699d"
     },
     {
@@ -328,7 +328,7 @@
       "final_score": 8,
       "started_at": "2026-03-28T13:16:40-07:00",
       "completed_at": "2026-03-28T13:18:39-07:00",
-      "lines_added": 0,
+      "lines_added": 123,
       "commit_sha": "59e4e30"
     },
     {
@@ -349,7 +349,7 @@
       "final_score": 9,
       "started_at": "2026-03-28T13:18:39-07:00",
       "completed_at": "2026-03-28T13:20:47-07:00",
-      "lines_added": 0,
+      "lines_added": 105,
       "commit_sha": "abe7492"
     },
     {
@@ -370,7 +370,7 @@
       "final_score": 10,
       "started_at": "2026-03-28T13:20:47-07:00",
       "completed_at": "2026-03-28T13:23:00-07:00",
-      "lines_added": 0,
+      "lines_added": 130,
       "commit_sha": "5a9b188"
     },
     {
@@ -391,7 +391,7 @@
       "final_score": 10,
       "started_at": "2026-03-28T13:23:00-07:00",
       "completed_at": "2026-03-28T13:25:33-07:00",
-      "lines_added": 0,
+      "lines_added": 152,
       "commit_sha": "da394a1"
     },
     {
@@ -412,7 +412,7 @@
       "final_score": 10,
       "started_at": "2026-03-28T13:25:33-07:00",
       "completed_at": "2026-03-28T13:28:13-07:00",
-      "lines_added": 0,
+      "lines_added": 234,
       "commit_sha": "cbf8d61"
     },
     {
@@ -433,7 +433,7 @@
       "final_score": 10,
       "started_at": "2026-03-28T13:28:13-07:00",
       "completed_at": "2026-03-28T13:29:50-07:00",
-      "lines_added": 0,
+      "lines_added": 93,
       "commit_sha": "ecc8a0b"
     },
     {
@@ -462,7 +462,7 @@
       "final_score": 10,
       "started_at": "2026-03-28T13:29:50-07:00",
       "completed_at": "2026-03-28T13:32:42-07:00",
-      "lines_added": 0,
+      "lines_added": 295,
       "commit_sha": "4ef4c79"
     },
     {
@@ -483,7 +483,7 @@
       "final_score": 10,
       "started_at": "2026-03-28T13:32:42-07:00",
       "completed_at": "2026-03-28T13:35:27-07:00",
-      "lines_added": 0,
+      "lines_added": 95,
       "commit_sha": "41778b3"
     },
     {
@@ -504,7 +504,7 @@
       "final_score": 10,
       "started_at": "2026-03-28T13:35:27-07:00",
       "completed_at": "2026-03-28T13:40:15-07:00",
-      "lines_added": 0,
+      "lines_added": 154,
       "commit_sha": "a22c1bf"
     },
     {
@@ -525,7 +525,7 @@
       "final_score": 10,
       "started_at": "2026-03-28T13:40:15-07:00",
       "completed_at": "2026-03-28T13:43:25-07:00",
-      "lines_added": 0,
+      "lines_added": 216,
       "commit_sha": "e9914fa"
     },
     {
@@ -546,7 +546,7 @@
       "final_score": 10,
       "started_at": "2026-03-28T13:43:25-07:00",
       "completed_at": "2026-03-28T13:45:19-07:00",
-      "lines_added": 0,
+      "lines_added": 88,
       "commit_sha": "55ddf23"
     },
     {
@@ -567,7 +567,7 @@
       "final_score": 10,
       "started_at": "2026-03-28T13:45:19-07:00",
       "completed_at": "2026-03-28T13:47:36-07:00",
-      "lines_added": 0,
+      "lines_added": 136,
       "commit_sha": "4e98553"
     },
     {
@@ -588,7 +588,7 @@
       "final_score": 10,
       "started_at": "2026-03-28T13:47:36-07:00",
       "completed_at": "2026-03-28T13:51:18-07:00",
-      "lines_added": 0,
+      "lines_added": 265,
       "commit_sha": "d240056"
     },
     {
@@ -609,7 +609,7 @@
       "final_score": 10,
       "started_at": "2026-03-28T13:51:18-07:00",
       "completed_at": "2026-03-28T13:53:45-07:00",
-      "lines_added": 0,
+      "lines_added": 148,
       "commit_sha": "2b8bdf5"
     },
     {
@@ -630,7 +630,7 @@
       "final_score": 10,
       "started_at": "2026-03-28T13:53:45-07:00",
       "completed_at": "2026-03-28T13:56:25-07:00",
-      "lines_added": 0,
+      "lines_added": 116,
       "commit_sha": "7884044"
     },
     {
@@ -667,7 +667,7 @@
       "final_score": 9,
       "started_at": "2026-03-28T13:56:25-07:00",
       "completed_at": "2026-03-28T14:03:24-07:00",
-      "lines_added": 0,
+      "lines_added": 226,
       "commit_sha": "6016520"
     },
     {
@@ -688,7 +688,7 @@
       "final_score": 10,
       "started_at": "2026-03-28T14:03:24-07:00",
       "completed_at": "2026-03-28T14:05:31-07:00",
-      "lines_added": 0,
+      "lines_added": 93,
       "commit_sha": "60d5cbf"
     },
     {
@@ -717,7 +717,7 @@
       "final_score": 9,
       "started_at": "2026-03-28T14:05:31-07:00",
       "completed_at": "2026-03-28T14:10:34-07:00",
-      "lines_added": 0,
+      "lines_added": 39,
       "commit_sha": "43483ca"
     }
   ],
