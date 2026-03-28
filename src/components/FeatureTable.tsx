@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { Fragment, useMemo, useState, type KeyboardEvent } from "react";
 import { type FeatureStatus, type MetricsFeature, useMetrics } from "../hooks/useMetrics";
 
 type SortKey = "id" | "description" | "category" | "score" | "iterations" | "status" | "duration";
@@ -14,6 +14,7 @@ interface FeatureTableRow {
   iterations: number;
   status: FeatureStatus;
   durationMinutes: number | null;
+  attempts: MetricsFeature["attempts"];
 }
 
 interface SortState {
@@ -83,6 +84,7 @@ function buildRows(features: MetricsFeature[], totalFeatures: number): FeatureTa
         iterations: 0,
         status: "pending",
         durationMinutes: null,
+        attempts: [],
       });
       continue;
     }
@@ -95,6 +97,7 @@ function buildRows(features: MetricsFeature[], totalFeatures: number): FeatureTa
       iterations: feature.attempts.length,
       status: feature.status,
       durationMinutes: readDurationMinutes(feature),
+      attempts: feature.attempts,
     });
   }
 
@@ -167,6 +170,14 @@ function formatDurationMinutes(durationMinutes: number | null): string {
   return `${durationMinutes.toFixed(1)}m`;
 }
 
+function formatAttemptScore(score: number): string {
+  if (!isValidScore(score)) {
+    return "--";
+  }
+
+  return score.toFixed(1);
+}
+
 function SortIndicator({ active, direction }: { active: boolean; direction: SortDirection }) {
   if (!active) {
     return <span className="text-zinc-600">-</span>;
@@ -178,6 +189,7 @@ function SortIndicator({ active, direction }: { active: boolean; direction: Sort
 export function FeatureTable() {
   const { data, isLoading, error } = useMetrics();
   const [sortState, setSortState] = useState<SortState>(DEFAULT_SORT);
+  const [expandedRowId, setExpandedRowId] = useState<number | null>(null);
 
   const totalFeatures = data.meta.total_features > 0 ? data.meta.total_features : 30;
   const rows = useMemo(() => buildRows(data.features, totalFeatures), [data.features, totalFeatures]);
@@ -210,6 +222,17 @@ export function FeatureTable() {
         direction: "asc",
       };
     });
+  };
+
+  const toggleExpandedRow = (rowId: number) => {
+    setExpandedRowId((previous) => (previous === rowId ? null : rowId));
+  };
+
+  const handleRowKeyDown = (event: KeyboardEvent<HTMLTableRowElement>, rowId: number) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      toggleExpandedRow(rowId);
+    }
   };
 
   return (
@@ -252,31 +275,78 @@ export function FeatureTable() {
           <tbody className="divide-y divide-zinc-800">
             {sortedRows.map((row) => {
               const isPending = row.status === "pending";
+              const isExpanded = expandedRowId === row.id;
               const rowTextColor = isPending ? "text-zinc-500" : "text-zinc-200";
               const rowBackground = isPending ? "bg-zinc-950/40" : "bg-zinc-950/10";
 
               return (
-                <tr key={row.id} className={rowBackground}>
-                  <td className={`px-3 py-3 tabular-nums ${rowTextColor}`}>{row.id}</td>
-                  <td className={`max-w-xs px-3 py-3 ${rowTextColor}`}>
-                    <p className="truncate" title={row.description}>
-                      {row.description}
-                    </p>
-                  </td>
-                  <td className={`px-3 py-3 capitalize ${rowTextColor}`}>{row.category}</td>
-                  <td className={`px-3 py-3 tabular-nums ${rowTextColor}`}>
-                    {row.score === null ? "--" : row.score.toFixed(1)}
-                  </td>
-                  <td className={`px-3 py-3 tabular-nums ${rowTextColor}`}>{row.iterations}</td>
-                  <td className="px-3 py-3">
-                    <span className={`inline-flex rounded-full border px-2 py-0.5 text-xs ${getStatusClasses(row.status)}`}>
-                      {formatStatus(row.status)}
-                    </span>
-                  </td>
-                  <td className={`px-3 py-3 tabular-nums ${rowTextColor}`}>
-                    {formatDurationMinutes(row.durationMinutes)}
-                  </td>
-                </tr>
+                <Fragment key={row.id}>
+                  <tr
+                    className={`${rowBackground} cursor-pointer transition-colors hover:bg-zinc-800/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400/60`}
+                    role="button"
+                    tabIndex={0}
+                    aria-expanded={isExpanded}
+                    aria-controls={`feature-feedback-${row.id}`}
+                    onClick={() => toggleExpandedRow(row.id)}
+                    onKeyDown={(event) => handleRowKeyDown(event, row.id)}
+                  >
+                    <td className={`px-3 py-3 tabular-nums ${rowTextColor}`}>
+                      <span className="mr-2 text-zinc-500" aria-hidden="true">
+                        {isExpanded ? "▾" : "▸"}
+                      </span>
+                      {row.id}
+                    </td>
+                    <td className={`max-w-xs px-3 py-3 ${rowTextColor}`}>
+                      <p className="truncate" title={row.description}>
+                        {row.description}
+                      </p>
+                    </td>
+                    <td className={`px-3 py-3 capitalize ${rowTextColor}`}>{row.category}</td>
+                    <td className={`px-3 py-3 tabular-nums ${rowTextColor}`}>
+                      {row.score === null ? "--" : row.score.toFixed(1)}
+                    </td>
+                    <td className={`px-3 py-3 tabular-nums ${rowTextColor}`}>{row.iterations}</td>
+                    <td className="px-3 py-3">
+                      <span className={`inline-flex rounded-full border px-2 py-0.5 text-xs ${getStatusClasses(row.status)}`}>
+                        {formatStatus(row.status)}
+                      </span>
+                    </td>
+                    <td className={`px-3 py-3 tabular-nums ${rowTextColor}`}>
+                      {formatDurationMinutes(row.durationMinutes)}
+                    </td>
+                  </tr>
+                  {isExpanded && (
+                    <tr id={`feature-feedback-${row.id}`} className="bg-zinc-950/80">
+                      <td colSpan={TABLE_COLUMNS.length} className="px-4 py-3">
+                        <div className="space-y-2">
+                          <p className="text-xs font-semibold uppercase tracking-wide text-zinc-400">Evaluator feedback</p>
+                          {row.attempts.length === 0 ? (
+                            <p className="text-sm text-zinc-400">No attempt feedback is available for this feature yet.</p>
+                          ) : (
+                            <ul className="space-y-2">
+                              {row.attempts.map((attempt, index) => (
+                                <li
+                                  key={`${row.id}-${attempt.iteration}-${index}`}
+                                  className="rounded-md border border-zinc-700/60 bg-zinc-900/60 p-3"
+                                >
+                                  <div className="mb-1 flex items-center justify-between gap-2 text-xs text-zinc-400">
+                                    <span>Attempt {attempt.iteration || index + 1}</span>
+                                    <span className="tabular-nums text-zinc-300">
+                                      Score: {formatAttemptScore(attempt.score)}
+                                    </span>
+                                  </div>
+                                  <p className="whitespace-pre-wrap text-sm text-zinc-200">
+                                    {attempt.feedback || "No evaluator feedback provided."}
+                                  </p>
+                                </li>
+                              ))}
+                            </ul>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  )}
+                </Fragment>
               );
             })}
           </tbody>

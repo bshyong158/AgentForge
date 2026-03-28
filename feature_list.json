@@ -138,7 +138,7 @@
     "category": "features",
     "description": "Clicking a feature row in the table expands a detail panel below it showing evaluator feedback text from each attempt",
     "verify": "Row click expands panel, feedback text from each attempt displays with attempt number and score",
-    "passes": false
+    "passes": true
   },
   {
     "id": 21,
