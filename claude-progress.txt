@@ -55,3 +55,25 @@ Known issues:
 === Feature #18 PASSED (score: 10/10, 1 attempts, 93s) — 2026-03-28T13:29:51-0700 ===
 
 === Feature #19 PASSED (score: 10/10, 1 attempts, 168s) — 2026-03-28T13:32:43-0700 ===
+
+=== Feature #20 PASSED (score: 10/10, 1 attempts, 161s) — 2026-03-28T13:35:28-0700 ===
+
+=== PLANNING PASS [2026-03-28 13:37:40 -0700] ===
+Build status: PASSING
+Dev server: DOWN
+Features passing: 19/30
+Features skipped: 1/30
+Features pending: 10/30
+
+Regressions detected:
+(or: None)
+
+Blocked features:
+- [feature #3]: skipped after 3 failed attempts (best score 0/10; `skip(#3)` in git/claude-progress); dark mode toggle with localStorage persistence remains unimplemented.
+
+Next priority: feature #21 — first non-skipped pending feature; table foundations (#19-20) already exist, so search/filter can be added without new dependencies.
+
+Known issues:
+- `npm run build` currently passes via `scripts/build.mjs` offline scaffold validation because `node_modules` is missing; full Next.js compile is not exercised.
+- `http://localhost:3000` is down (no responding dev server process).
+- Pending feature implementation state: #21 partial groundwork only (table exists but no search/category filter UI), #22-#27 not started, #28 partial (loading text but no skeleton pulse components), #29 partial responsive layout but no hamburger menu/overlay, #30 not started (no polling interval in `useMetrics`).

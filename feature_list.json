@@ -145,7 +145,7 @@
     "category": "features",
     "description": "Search input and category dropdown filter above the feature table that narrows displayed rows by text match or category selection",
     "verify": "Typing in search filters rows by description text, dropdown filters by category, both combine",
-    "passes": false
+    "passes": true
   },
   {
     "id": 22,

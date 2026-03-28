@@ -190,12 +190,29 @@ export function FeatureTable() {
   const { data, isLoading, error } = useMetrics();
   const [sortState, setSortState] = useState<SortState>(DEFAULT_SORT);
   const [expandedRowId, setExpandedRowId] = useState<number | null>(null);
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
 
   const totalFeatures = data.meta.total_features > 0 ? data.meta.total_features : 30;
   const rows = useMemo(() => buildRows(data.features, totalFeatures), [data.features, totalFeatures]);
+  const normalizedSearchQuery = searchQuery.trim().toLowerCase();
+
+  const categoryOptions = useMemo(() => {
+    const categories = new Set(rows.map((row) => row.category));
+    return Array.from(categories).sort((a, b) => a.localeCompare(b));
+  }, [rows]);
+
+  const filteredRows = useMemo(() => {
+    return rows.filter((row) => {
+      const matchesSearch =
+        normalizedSearchQuery.length === 0 || row.description.toLowerCase().includes(normalizedSearchQuery);
+      const matchesCategory = selectedCategory === "all" || row.category === selectedCategory;
+      return matchesSearch && matchesCategory;
+    });
+  }, [rows, normalizedSearchQuery, selectedCategory]);
 
   const sortedRows = useMemo(() => {
-    const nextRows = [...rows];
+    const nextRows = [...filteredRows];
     nextRows.sort((a, b) => {
       const result = compareRows(a, b, sortState.key);
       if (result !== 0) {
@@ -204,7 +221,7 @@ export function FeatureTable() {
       return a.id - b.id;
     });
     return nextRows;
-  }, [rows, sortState.direction, sortState.key]);
+  }, [filteredRows, sortState.direction, sortState.key]);
 
   const hasMetricsRows = data.features.length > 0;
 
@@ -237,8 +254,35 @@ export function FeatureTable() {
 
   return (
     <section className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-5" aria-label="Feature table">
-      <div className="mb-4 flex items-center justify-between gap-3">
+      <div className="mb-4 flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
         <h3 className="text-sm font-medium uppercase tracking-wide text-zinc-400">Feature details</h3>
+        <div className="grid gap-3 sm:grid-cols-2 lg:w-[34rem]">
+          <label className="flex flex-col gap-1">
+            <span className="text-xs font-medium uppercase tracking-wide text-zinc-400">Search</span>
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(event) => setSearchQuery(event.target.value)}
+              placeholder="Filter descriptions..."
+              className="h-9 rounded-md border border-zinc-700 bg-zinc-900 px-3 text-sm text-zinc-100 placeholder:text-zinc-500 focus:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
+            />
+          </label>
+          <label className="flex flex-col gap-1">
+            <span className="text-xs font-medium uppercase tracking-wide text-zinc-400">Category</span>
+            <select
+              value={selectedCategory}
+              onChange={(event) => setSelectedCategory(event.target.value)}
+              className="h-9 rounded-md border border-zinc-700 bg-zinc-900 px-3 text-sm text-zinc-100 focus:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
+            >
+              <option value="all">All categories</option>
+              {categoryOptions.map((category) => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
+              ))}
+            </select>
+          </label>
+        </div>
       </div>
 
       {isLoading && <p className="mb-4 text-sm text-zinc-400">Loading metrics...</p>}
@@ -273,82 +317,92 @@ export function FeatureTable() {
             </tr>
           </thead>
           <tbody className="divide-y divide-zinc-800">
-            {sortedRows.map((row) => {
-              const isPending = row.status === "pending";
-              const isExpanded = expandedRowId === row.id;
-              const rowTextColor = isPending ? "text-zinc-500" : "text-zinc-200";
-              const rowBackground = isPending ? "bg-zinc-950/40" : "bg-zinc-950/10";
+            {sortedRows.length === 0 ? (
+              <tr className="bg-zinc-950/40">
+                <td colSpan={TABLE_COLUMNS.length} className="px-3 py-6 text-center text-sm text-zinc-400">
+                  No features match the current search and category filters.
+                </td>
+              </tr>
+            ) : (
+              sortedRows.map((row) => {
+                const isPending = row.status === "pending";
+                const isExpanded = expandedRowId === row.id;
+                const rowTextColor = isPending ? "text-zinc-500" : "text-zinc-200";
+                const rowBackground = isPending ? "bg-zinc-950/40" : "bg-zinc-950/10";
 
-              return (
-                <Fragment key={row.id}>
-                  <tr
-                    className={`${rowBackground} cursor-pointer transition-colors hover:bg-zinc-800/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400/60`}
-                    role="button"
-                    tabIndex={0}
-                    aria-expanded={isExpanded}
-                    aria-controls={`feature-feedback-${row.id}`}
-                    onClick={() => toggleExpandedRow(row.id)}
-                    onKeyDown={(event) => handleRowKeyDown(event, row.id)}
-                  >
-                    <td className={`px-3 py-3 tabular-nums ${rowTextColor}`}>
-                      <span className="mr-2 text-zinc-500" aria-hidden="true">
-                        {isExpanded ? "▾" : "▸"}
-                      </span>
-                      {row.id}
-                    </td>
-                    <td className={`max-w-xs px-3 py-3 ${rowTextColor}`}>
-                      <p className="truncate" title={row.description}>
-                        {row.description}
-                      </p>
-                    </td>
-                    <td className={`px-3 py-3 capitalize ${rowTextColor}`}>{row.category}</td>
-                    <td className={`px-3 py-3 tabular-nums ${rowTextColor}`}>
-                      {row.score === null ? "--" : row.score.toFixed(1)}
-                    </td>
-                    <td className={`px-3 py-3 tabular-nums ${rowTextColor}`}>{row.iterations}</td>
-                    <td className="px-3 py-3">
-                      <span className={`inline-flex rounded-full border px-2 py-0.5 text-xs ${getStatusClasses(row.status)}`}>
-                        {formatStatus(row.status)}
-                      </span>
-                    </td>
-                    <td className={`px-3 py-3 tabular-nums ${rowTextColor}`}>
-                      {formatDurationMinutes(row.durationMinutes)}
-                    </td>
-                  </tr>
-                  {isExpanded && (
-                    <tr id={`feature-feedback-${row.id}`} className="bg-zinc-950/80">
-                      <td colSpan={TABLE_COLUMNS.length} className="px-4 py-3">
-                        <div className="space-y-2">
-                          <p className="text-xs font-semibold uppercase tracking-wide text-zinc-400">Evaluator feedback</p>
-                          {row.attempts.length === 0 ? (
-                            <p className="text-sm text-zinc-400">No attempt feedback is available for this feature yet.</p>
-                          ) : (
-                            <ul className="space-y-2">
-                              {row.attempts.map((attempt, index) => (
-                                <li
-                                  key={`${row.id}-${attempt.iteration}-${index}`}
-                                  className="rounded-md border border-zinc-700/60 bg-zinc-900/60 p-3"
-                                >
-                                  <div className="mb-1 flex items-center justify-between gap-2 text-xs text-zinc-400">
-                                    <span>Attempt {attempt.iteration || index + 1}</span>
-                                    <span className="tabular-nums text-zinc-300">
-                                      Score: {formatAttemptScore(attempt.score)}
-                                    </span>
-                                  </div>
-                                  <p className="whitespace-pre-wrap text-sm text-zinc-200">
-                                    {attempt.feedback || "No evaluator feedback provided."}
-                                  </p>
-                                </li>
-                              ))}
-                            </ul>
-                          )}
-                        </div>
+                return (
+                  <Fragment key={row.id}>
+                    <tr
+                      className={`${rowBackground} cursor-pointer transition-colors hover:bg-zinc-800/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400/60`}
+                      role="button"
+                      tabIndex={0}
+                      aria-expanded={isExpanded}
+                      aria-controls={`feature-feedback-${row.id}`}
+                      onClick={() => toggleExpandedRow(row.id)}
+                      onKeyDown={(event) => handleRowKeyDown(event, row.id)}
+                    >
+                      <td className={`px-3 py-3 tabular-nums ${rowTextColor}`}>
+                        <span className="mr-2 text-zinc-500" aria-hidden="true">
+                          {isExpanded ? "▾" : "▸"}
+                        </span>
+                        {row.id}
+                      </td>
+                      <td className={`max-w-xs px-3 py-3 ${rowTextColor}`}>
+                        <p className="truncate" title={row.description}>
+                          {row.description}
+                        </p>
+                      </td>
+                      <td className={`px-3 py-3 capitalize ${rowTextColor}`}>{row.category}</td>
+                      <td className={`px-3 py-3 tabular-nums ${rowTextColor}`}>
+                        {row.score === null ? "--" : row.score.toFixed(1)}
+                      </td>
+                      <td className={`px-3 py-3 tabular-nums ${rowTextColor}`}>{row.iterations}</td>
+                      <td className="px-3 py-3">
+                        <span
+                          className={`inline-flex rounded-full border px-2 py-0.5 text-xs ${getStatusClasses(row.status)}`}
+                        >
+                          {formatStatus(row.status)}
+                        </span>
+                      </td>
+                      <td className={`px-3 py-3 tabular-nums ${rowTextColor}`}>
+                        {formatDurationMinutes(row.durationMinutes)}
                       </td>
                     </tr>
-                  )}
-                </Fragment>
-              );
-            })}
+                    {isExpanded && (
+                      <tr id={`feature-feedback-${row.id}`} className="bg-zinc-950/80">
+                        <td colSpan={TABLE_COLUMNS.length} className="px-4 py-3">
+                          <div className="space-y-2">
+                            <p className="text-xs font-semibold uppercase tracking-wide text-zinc-400">Evaluator feedback</p>
+                            {row.attempts.length === 0 ? (
+                              <p className="text-sm text-zinc-400">No attempt feedback is available for this feature yet.</p>
+                            ) : (
+                              <ul className="space-y-2">
+                                {row.attempts.map((attempt, index) => (
+                                  <li
+                                    key={`${row.id}-${attempt.iteration}-${index}`}
+                                    className="rounded-md border border-zinc-700/60 bg-zinc-900/60 p-3"
+                                  >
+                                    <div className="mb-1 flex items-center justify-between gap-2 text-xs text-zinc-400">
+                                      <span>Attempt {attempt.iteration || index + 1}</span>
+                                      <span className="tabular-nums text-zinc-300">
+                                        Score: {formatAttemptScore(attempt.score)}
+                                      </span>
+                                    </div>
+                                    <p className="whitespace-pre-wrap text-sm text-zinc-200">
+                                      {attempt.feedback || "No evaluator feedback provided."}
+                                    </p>
+                                  </li>
+                                ))}
+                              </ul>
+                            )}
+                          </div>
+                        </td>
+                      </tr>
+                    )}
+                  </Fragment>
+                );
+              })
+            )}
           </tbody>
         </table>
       </div>
