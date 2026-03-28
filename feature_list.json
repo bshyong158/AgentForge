@@ -26,7 +26,7 @@
     "category": "scaffold",
     "description": "Typed metrics reader: TypeScript interfaces for metrics.json schema and a useMetrics() React hook in src/hooks/useMetrics.ts that fetches and parses /metrics.json with proper typing",
     "verify": "Hook returns typed MetricsData object, handles missing file gracefully with empty defaults, re-exports types for use in components",
-    "passes": false
+    "passes": true
   },
   {
     "id": 5,
