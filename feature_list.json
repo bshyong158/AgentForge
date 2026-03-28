@@ -103,7 +103,7 @@
     "category": "quality",
     "description": "Scatter plot using recharts with x-axis as first-attempt score and y-axis as final score. Diagonal reference line where x=y shows no-improvement boundary.",
     "verify": "Points plot correctly from attempts[0].score vs final_score, diagonal line renders, points above line show improvement",
-    "passes": false
+    "passes": true
   },
   {
     "id": 16,
