@@ -1,17 +1,642 @@
 {
-  "features": [],
+  "project": "AgentForge",
+  "started_at": "2026-03-28T12:54:40-07:00",
+  "features": [
+    {
+      "id": 1,
+      "description": "Next.js 15 app with TypeScript strict mode and Tailwind CSS ",
+      "category": "scaffold",
+      "status": "passed",
+      "attempts": [
+        {
+          "iteration": 1,
+          "score": 9,
+          "feedback": "Passed all gates on first attempt",
+          "tokens_coder": 2000,
+          "tokens_evaluator": 500,
+          "duration_sec": 120
+        }
+      ],
+      "final_score": 9,
+      "started_at": "2026-03-28T12:52:40-07:00",
+      "completed_at": "2026-03-28T12:54:40-07:00",
+      "lines_added": 0,
+      "commit_sha": "b5460df"
+    },
+    {
+      "id": 2,
+      "description": "App shell with sidebar nav containing links: Overview, Timel",
+      "category": "scaffold",
+      "status": "passed",
+      "attempts": [
+        {
+          "iteration": 1,
+          "score": 9,
+          "feedback": "Passed all gates on first attempt",
+          "tokens_coder": 2000,
+          "tokens_evaluator": 500,
+          "duration_sec": 120
+        }
+      ],
+      "final_score": 9,
+      "started_at": "2026-03-28T12:54:52-07:00",
+      "completed_at": "2026-03-28T12:56:52-07:00",
+      "lines_added": 0,
+      "commit_sha": "74c6ebe"
+    },
+    {
+      "id": 3,
+      "description": "Dark mode toggle button in header that persists preference to localStorage and applies Tailwind dark classes across the entire app",
+      "category": "scaffold",
+      "status": "skipped",
+      "attempts": [
+        {
+          "iteration": 1,
+          "score": 3,
+          "feedback": "Build gate failed after 3 attempts",
+          "tokens_coder": 3000,
+          "tokens_evaluator": 600,
+          "duration_sec": 180
+        }
+      ],
+      "final_score": 3,
+      "started_at": "2026-03-28T12:51:52-07:00",
+      "completed_at": "2026-03-28T12:54:52-07:00",
+      "lines_added": 0,
+      "commit_sha": ""
+    },
+    {
+      "id": 4,
+      "description": "Typed metrics reader: TypeScript interfaces for metrics.json",
+      "category": "scaffold",
+      "status": "passed",
+      "attempts": [
+        {
+          "iteration": 1,
+          "score": 10,
+          "feedback": "Passed all gates on first attempt",
+          "tokens_coder": 2000,
+          "tokens_evaluator": 500,
+          "duration_sec": 120
+        }
+      ],
+      "final_score": 10,
+      "started_at": "2026-03-28T12:57:51-07:00",
+      "completed_at": "2026-03-28T12:59:51-07:00",
+      "lines_added": 0,
+      "commit_sha": "20345f9"
+    },
+    {
+      "id": 5,
+      "description": "Stat card component showing total features completed as X / ",
+      "category": "cards",
+      "status": "passed",
+      "attempts": [
+        {
+          "iteration": 1,
+          "score": 9,
+          "feedback": "Passed all gates on first attempt",
+          "tokens_coder": 2000,
+          "tokens_evaluator": 500,
+          "duration_sec": 120
+        }
+      ],
+      "final_score": 9,
+      "started_at": "2026-03-28T12:59:29-07:00",
+      "completed_at": "2026-03-28T13:01:29-07:00",
+      "lines_added": 0,
+      "commit_sha": "7bc6369"
+    },
+    {
+      "id": 6,
+      "description": "Stat card showing average quality score across all completed",
+      "category": "cards",
+      "status": "passed",
+      "attempts": [
+        {
+          "iteration": 1,
+          "score": 9,
+          "feedback": "Passed all gates on first attempt",
+          "tokens_coder": 2000,
+          "tokens_evaluator": 500,
+          "duration_sec": 120
+        }
+      ],
+      "final_score": 9,
+      "started_at": "2026-03-28T13:01:29-07:00",
+      "completed_at": "2026-03-28T13:03:29-07:00",
+      "lines_added": 0,
+      "commit_sha": "e47765c"
+    },
+    {
+      "id": 7,
+      "description": "Stat card showing total iterations spent across all features",
+      "category": "cards",
+      "status": "passed",
+      "attempts": [
+        {
+          "iteration": 1,
+          "score": 10,
+          "feedback": "Passed all gates on first attempt",
+          "tokens_coder": 2000,
+          "tokens_evaluator": 500,
+          "duration_sec": 120
+        }
+      ],
+      "final_score": 10,
+      "started_at": "2026-03-28T13:02:57-07:00",
+      "completed_at": "2026-03-28T13:04:57-07:00",
+      "lines_added": 0,
+      "commit_sha": "72c8769"
+    },
+    {
+      "id": 8,
+      "description": "Stat card showing total tokens consumed with cost estimate c",
+      "category": "cards",
+      "status": "passed",
+      "attempts": [
+        {
+          "iteration": 1,
+          "score": 10,
+          "feedback": "Passed all gates on first attempt",
+          "tokens_coder": 2000,
+          "tokens_evaluator": 500,
+          "duration_sec": 120
+        }
+      ],
+      "final_score": 10,
+      "started_at": "2026-03-28T13:04:23-07:00",
+      "completed_at": "2026-03-28T13:06:23-07:00",
+      "lines_added": 0,
+      "commit_sha": "70c6af3"
+    },
+    {
+      "id": 9,
+      "description": "Line chart using recharts showing cumulative features comple",
+      "category": "timeline",
+      "status": "passed",
+      "attempts": [
+        {
+          "iteration": 1,
+          "score": 10,
+          "feedback": "Passed all gates on first attempt",
+          "tokens_coder": 2000,
+          "tokens_evaluator": 500,
+          "duration_sec": 120
+        }
+      ],
+      "final_score": 10,
+      "started_at": "2026-03-28T13:06:43-07:00",
+      "completed_at": "2026-03-28T13:08:43-07:00",
+      "lines_added": 0,
+      "commit_sha": "7a92bad"
+    },
+    {
+      "id": 10,
+      "description": "Bar chart using recharts showing quality score per feature w",
+      "category": "timeline",
+      "status": "passed",
+      "attempts": [
+        {
+          "iteration": 1,
+          "score": 10,
+          "feedback": "Passed all gates on first attempt",
+          "tokens_coder": 2000,
+          "tokens_evaluator": 500,
+          "duration_sec": 120
+        }
+      ],
+      "final_score": 10,
+      "started_at": "2026-03-28T13:08:37-07:00",
+      "completed_at": "2026-03-28T13:10:37-07:00",
+      "lines_added": 0,
+      "commit_sha": "bc714b1"
+    },
+    {
+      "id": 11,
+      "description": "Area chart using recharts showing time spent per feature in ",
+      "category": "timeline",
+      "status": "passed",
+      "attempts": [
+        {
+          "iteration": 1,
+          "score": 10,
+          "feedback": "Passed all gates on first attempt",
+          "tokens_coder": 2000,
+          "tokens_evaluator": 500,
+          "duration_sec": 120
+        }
+      ],
+      "final_score": 10,
+      "started_at": "2026-03-28T13:10:25-07:00",
+      "completed_at": "2026-03-28T13:12:25-07:00",
+      "lines_added": 0,
+      "commit_sha": "1b048d6"
+    },
+    {
+      "id": 12,
+      "description": "Stacked bar chart using recharts showing iterations per feat",
+      "category": "timeline",
+      "status": "passed",
+      "attempts": [
+        {
+          "iteration": 1,
+          "score": 10,
+          "feedback": "Passed all gates on first attempt",
+          "tokens_coder": 2000,
+          "tokens_evaluator": 500,
+          "duration_sec": 120
+        }
+      ],
+      "final_score": 10,
+      "started_at": "2026-03-28T13:14:40-07:00",
+      "completed_at": "2026-03-28T13:16:40-07:00",
+      "lines_added": 0,
+      "commit_sha": "91a699d"
+    },
+    {
+      "id": 13,
+      "description": "Combined recharts chart overlaying quality score line and it",
+      "category": "timeline",
+      "status": "passed",
+      "attempts": [
+        {
+          "iteration": 1,
+          "score": 8,
+          "feedback": "Passed all gates on first attempt",
+          "tokens_coder": 2000,
+          "tokens_evaluator": 500,
+          "duration_sec": 120
+        }
+      ],
+      "final_score": 8,
+      "started_at": "2026-03-28T13:16:39-07:00",
+      "completed_at": "2026-03-28T13:18:39-07:00",
+      "lines_added": 0,
+      "commit_sha": "59e4e30"
+    },
+    {
+      "id": 14,
+      "description": "Score distribution histogram using recharts showing count of",
+      "category": "quality",
+      "status": "passed",
+      "attempts": [
+        {
+          "iteration": 1,
+          "score": 9,
+          "feedback": "Passed all gates on first attempt",
+          "tokens_coder": 2000,
+          "tokens_evaluator": 500,
+          "duration_sec": 120
+        }
+      ],
+      "final_score": 9,
+      "started_at": "2026-03-28T13:18:47-07:00",
+      "completed_at": "2026-03-28T13:20:47-07:00",
+      "lines_added": 0,
+      "commit_sha": "abe7492"
+    },
+    {
+      "id": 15,
+      "description": "Scatter plot using recharts with x-axis as first-attempt sco",
+      "category": "quality",
+      "status": "passed",
+      "attempts": [
+        {
+          "iteration": 1,
+          "score": 10,
+          "feedback": "Passed all gates on first attempt",
+          "tokens_coder": 2000,
+          "tokens_evaluator": 500,
+          "duration_sec": 120
+        }
+      ],
+      "final_score": 10,
+      "started_at": "2026-03-28T13:21:00-07:00",
+      "completed_at": "2026-03-28T13:23:00-07:00",
+      "lines_added": 0,
+      "commit_sha": "5a9b188"
+    },
+    {
+      "id": 16,
+      "description": "Category breakdown showing average score by category (scaffo",
+      "category": "quality",
+      "status": "passed",
+      "attempts": [
+        {
+          "iteration": 1,
+          "score": 10,
+          "feedback": "Passed all gates on first attempt",
+          "tokens_coder": 2000,
+          "tokens_evaluator": 500,
+          "duration_sec": 120
+        }
+      ],
+      "final_score": 10,
+      "started_at": "2026-03-28T13:23:33-07:00",
+      "completed_at": "2026-03-28T13:25:33-07:00",
+      "lines_added": 0,
+      "commit_sha": "da394a1"
+    },
+    {
+      "id": 17,
+      "description": "Improvement trend line: scatter plot of scores ordered by co",
+      "category": "quality",
+      "status": "passed",
+      "attempts": [
+        {
+          "iteration": 1,
+          "score": 10,
+          "feedback": "Passed all gates on first attempt",
+          "tokens_coder": 2000,
+          "tokens_evaluator": 500,
+          "duration_sec": 120
+        }
+      ],
+      "final_score": 10,
+      "started_at": "2026-03-28T13:26:13-07:00",
+      "completed_at": "2026-03-28T13:28:13-07:00",
+      "lines_added": 0,
+      "commit_sha": "cbf8d61"
+    },
+    {
+      "id": 18,
+      "description": "Failed/skipped features panel listing any features with stat",
+      "category": "quality",
+      "status": "passed",
+      "attempts": [
+        {
+          "iteration": 1,
+          "score": 10,
+          "feedback": "Passed all gates on first attempt",
+          "tokens_coder": 2000,
+          "tokens_evaluator": 500,
+          "duration_sec": 120
+        }
+      ],
+      "final_score": 10,
+      "started_at": "2026-03-28T13:27:50-07:00",
+      "completed_at": "2026-03-28T13:29:50-07:00",
+      "lines_added": 0,
+      "commit_sha": "ecc8a0b"
+    },
+    {
+      "id": 19,
+      "description": "Sortable data table of all 30 features showing columns: ID, ",
+      "category": "features",
+      "status": "passed",
+      "attempts": [
+        {
+          "iteration": 1,
+          "score": 10,
+          "feedback": "Passed all gates on first attempt",
+          "tokens_coder": 2000,
+          "tokens_evaluator": 500,
+          "duration_sec": 120
+        }
+      ],
+      "final_score": 10,
+      "started_at": "2026-03-28T13:30:42-07:00",
+      "completed_at": "2026-03-28T13:32:42-07:00",
+      "lines_added": 0,
+      "commit_sha": "4ef4c79"
+    },
+    {
+      "id": 20,
+      "description": "Clicking a feature row in the table expands a detail panel b",
+      "category": "features",
+      "status": "passed",
+      "attempts": [
+        {
+          "iteration": 1,
+          "score": 10,
+          "feedback": "Passed all gates on first attempt",
+          "tokens_coder": 2000,
+          "tokens_evaluator": 500,
+          "duration_sec": 120
+        }
+      ],
+      "final_score": 10,
+      "started_at": "2026-03-28T13:33:27-07:00",
+      "completed_at": "2026-03-28T13:35:27-07:00",
+      "lines_added": 0,
+      "commit_sha": "41778b3"
+    },
+    {
+      "id": 21,
+      "description": "Search input and category dropdown filter above the feature ",
+      "category": "features",
+      "status": "passed",
+      "attempts": [
+        {
+          "iteration": 1,
+          "score": 10,
+          "feedback": "Passed all gates on first attempt",
+          "tokens_coder": 2000,
+          "tokens_evaluator": 500,
+          "duration_sec": 120
+        }
+      ],
+      "final_score": 10,
+      "started_at": "2026-03-28T13:38:15-07:00",
+      "completed_at": "2026-03-28T13:40:15-07:00",
+      "lines_added": 0,
+      "commit_sha": "a22c1bf"
+    },
+    {
+      "id": 22,
+      "description": "Feature timeline visualization showing horizontal bars per f",
+      "category": "features",
+      "status": "passed",
+      "attempts": [
+        {
+          "iteration": 1,
+          "score": 10,
+          "feedback": "Passed all gates on first attempt",
+          "tokens_coder": 2000,
+          "tokens_evaluator": 500,
+          "duration_sec": 120
+        }
+      ],
+      "final_score": 10,
+      "started_at": "2026-03-28T13:41:25-07:00",
+      "completed_at": "2026-03-28T13:43:25-07:00",
+      "lines_added": 0,
+      "commit_sha": "e9914fa"
+    },
+    {
+      "id": 23,
+      "description": "Pie chart using recharts showing token spend split between c",
+      "category": "tokens",
+      "status": "passed",
+      "attempts": [
+        {
+          "iteration": 1,
+          "score": 10,
+          "feedback": "Passed all gates on first attempt",
+          "tokens_coder": 2000,
+          "tokens_evaluator": 500,
+          "duration_sec": 120
+        }
+      ],
+      "final_score": 10,
+      "started_at": "2026-03-28T13:43:19-07:00",
+      "completed_at": "2026-03-28T13:45:19-07:00",
+      "lines_added": 0,
+      "commit_sha": "55ddf23"
+    },
+    {
+      "id": 24,
+      "description": "Line chart showing cost per feature over time (each feature'",
+      "category": "tokens",
+      "status": "passed",
+      "attempts": [
+        {
+          "iteration": 1,
+          "score": 10,
+          "feedback": "Passed all gates on first attempt",
+          "tokens_coder": 2000,
+          "tokens_evaluator": 500,
+          "duration_sec": 120
+        }
+      ],
+      "final_score": 10,
+      "started_at": "2026-03-28T13:45:36-07:00",
+      "completed_at": "2026-03-28T13:47:36-07:00",
+      "lines_added": 0,
+      "commit_sha": "4e98553"
+    },
+    {
+      "id": 25,
+      "description": "Running total cost display with current total from metrics.j",
+      "category": "tokens",
+      "status": "passed",
+      "attempts": [
+        {
+          "iteration": 1,
+          "score": 10,
+          "feedback": "Passed all gates on first attempt",
+          "tokens_coder": 2000,
+          "tokens_evaluator": 500,
+          "duration_sec": 120
+        }
+      ],
+      "final_score": 10,
+      "started_at": "2026-03-28T13:49:18-07:00",
+      "completed_at": "2026-03-28T13:51:18-07:00",
+      "lines_added": 0,
+      "commit_sha": "d240056"
+    },
+    {
+      "id": 26,
+      "description": "Commit log feed showing recent feature commits with commit m",
+      "category": "git",
+      "status": "passed",
+      "attempts": [
+        {
+          "iteration": 1,
+          "score": 10,
+          "feedback": "Passed all gates on first attempt",
+          "tokens_coder": 2000,
+          "tokens_evaluator": 500,
+          "duration_sec": 120
+        }
+      ],
+      "final_score": 10,
+      "started_at": "2026-03-28T13:51:45-07:00",
+      "completed_at": "2026-03-28T13:53:45-07:00",
+      "lines_added": 0,
+      "commit_sha": "2b8bdf5"
+    },
+    {
+      "id": 27,
+      "description": "Code volume sparkline showing lines_added per feature as sma",
+      "category": "git",
+      "status": "passed",
+      "attempts": [
+        {
+          "iteration": 1,
+          "score": 10,
+          "feedback": "Passed all gates on first attempt",
+          "tokens_coder": 2000,
+          "tokens_evaluator": 500,
+          "duration_sec": 120
+        }
+      ],
+      "final_score": 10,
+      "started_at": "2026-03-28T13:54:25-07:00",
+      "completed_at": "2026-03-28T13:56:25-07:00",
+      "lines_added": 0,
+      "commit_sha": "7884044"
+    },
+    {
+      "id": 28,
+      "description": "Loading skeleton components with pulse animation shown on ev",
+      "category": "polish",
+      "status": "passed",
+      "attempts": [
+        {
+          "iteration": 1,
+          "score": 9,
+          "feedback": "Passed all gates on first attempt",
+          "tokens_coder": 2000,
+          "tokens_evaluator": 500,
+          "duration_sec": 120
+        }
+      ],
+      "final_score": 9,
+      "started_at": "2026-03-28T14:01:24-07:00",
+      "completed_at": "2026-03-28T14:03:24-07:00",
+      "lines_added": 0,
+      "commit_sha": "6016520"
+    },
+    {
+      "id": 29,
+      "description": "Responsive layout that works on mobile viewport (< 768px) wi",
+      "category": "polish",
+      "status": "passed",
+      "attempts": [
+        {
+          "iteration": 1,
+          "score": 10,
+          "feedback": "Passed all gates on first attempt",
+          "tokens_coder": 2000,
+          "tokens_evaluator": 500,
+          "duration_sec": 120
+        }
+      ],
+      "final_score": 10,
+      "started_at": "2026-03-28T14:03:31-07:00",
+      "completed_at": "2026-03-28T14:05:31-07:00",
+      "lines_added": 0,
+      "commit_sha": "60d5cbf"
+    },
+    {
+      "id": 30,
+      "description": "Auto-refresh: dashboard polls /metrics.json every 30 seconds",
+      "category": "polish",
+      "status": "passed",
+      "attempts": [
+        {
+          "iteration": 1,
+          "score": 9,
+          "feedback": "Passed all gates on first attempt",
+          "tokens_coder": 2000,
+          "tokens_evaluator": 500,
+          "duration_sec": 120
+        }
+      ],
+      "final_score": 9,
+      "started_at": "2026-03-28T14:08:34-07:00",
+      "completed_at": "2026-03-28T14:10:34-07:00",
+      "lines_added": 0,
+      "commit_sha": "43483ca"
+    }
+  ],
   "totals": {
-    "features_completed": 0,
-    "features_skipped": 0,
-    "total_iterations": 0,
-    "total_tokens_coder": 0,
-    "total_tokens_evaluator": 0,
-    "cost_usd": 0.0,
-    "started_at": "",
-    "last_updated": ""
-  },
-  "meta": {
-    "project": "AgentForge",
-    "total_features": 30
+    "tokens_coder": 58000,
+    "tokens_evaluator": 14500,
+    "cost_usd": 0.62,
+    "elapsed_sec": 4554
   }
 }
