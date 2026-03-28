@@ -116,3 +116,5 @@ Known issues:
 - `npm run build` passes via `scripts/build.mjs` offline scaffold validation because `node_modules/.bin/next` is absent; full Next.js compile was not exercised.
 - `http://localhost:3000` is down (`curl` connection failed on 2026-03-28).
 - Runtime behavior with non-empty metrics data cannot be re-verified in this pass because `public/metrics.json` is currently empty.
+
+=== Feature #30 PASSED (score: 9/10, 1 attempts, 83s) — 2026-03-28T14:10:35-0700 ===

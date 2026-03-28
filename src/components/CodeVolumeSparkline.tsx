@@ -28,11 +28,11 @@ export function CodeVolumeSparkline({ data, featureId }: CodeVolumeSparklineProp
             stroke="#38bdf8"
             strokeWidth={1.75}
             isAnimationActive={false}
-            dot={(dotProps: any) => {
+            dot={((dotProps: any) => {
               const payload = dotProps?.payload as CodeVolumeSparklinePoint | undefined;
 
               if (!payload?.isCurrent) {
-                return null;
+                return <circle key="empty" r={0} cx={0} cy={0} />;
               }
 
               return (
@@ -45,7 +45,7 @@ export function CodeVolumeSparkline({ data, featureId }: CodeVolumeSparklineProp
                   strokeWidth={1}
                 />
               );
-            }}
+            }) as any}
           />
         </LineChart>
       </ResponsiveContainer>
