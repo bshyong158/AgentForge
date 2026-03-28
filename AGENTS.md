@@ -1,45 +1,56 @@
 # AgentForge — Operational Guide
 
 ## Project
-Building a booking dashboard for short-term rental properties using Next.js 15, TypeScript, Tailwind CSS v4, App Router.
+Self-referential metrics dashboard that visualizes its own autonomous build process. A Ralph Loop builds this app feature by feature. Each completed feature adds data to `public/metrics.json`. The dashboard charts, cards, and tables display that data — showing the agent's progress, quality scores, token spend, and git history in real-time.
+
+The app IS the demo. Every chart is evidence of the process that created it.
 
 ## Tech Stack
-- **Framework**: Next.js 15 (App Router, src/ directory)
+- **Framework**: Next.js 15 (App Router, `src/` directory)
 - **Language**: TypeScript (strict mode)
 - **Styling**: Tailwind CSS v4 with dark mode (class strategy)
-- **Charts**: recharts
-- **Data**: JSON files in src/data/ (NO database, NO SQLite, NO external services)
+- **Charts**: recharts (ALL visualizations — Line, Bar, Area, Pie, Scatter, etc.)
 - **Tests**: vitest
-- **Deploy**: Vercel (auto-deploy on git push)
+- **Deploy**: Vercel (auto-deploy on git push to main)
 
 ## Data Architecture
-- All data lives in JSON files under `src/data/`
-- Data access functions in `src/lib/data.ts`
-- For mutations (create booking, update status): write to a server-side JSON file or use in-memory store
-- 3 properties: Northstar Lodge, Nyhavn Oak, Streamhouse
-- 50 sample bookings, 30 guests with realistic names/emails/phones
+- **Single data source**: `public/metrics.json`
+- This file is written by the harness (`ralph-loop.sh`), NOT by the coding agent
+- Read via `useMetrics()` hook in `src/hooks/useMetrics.ts`
+- Data grows as features complete — early features render with partial data
+- Handle empty/missing data gracefully: 0 features = empty state message, NOT an error
+- No database. No SQLite. No external services. Just one JSON file.
+
+## Page Structure (maps to sidebar nav)
+- `/` — Overview: stat cards (features 5-8)
+- `/timeline` — Build Timeline: charts showing progress over time (features 9-13)
+- `/quality` — Quality Analysis: score distributions and trends (features 14-18)
+- `/features` — Feature Table: detailed list with drill-down (features 19-22)
+- `/tokens` — Token Economics: cost analysis (features 23-25)
+- `/git` — Git Visualization: commit feed and code volume (features 26-27)
 
 ## Code Style
-- Use `'use client'` directive only on components that need interactivity (forms, toggles, search)
+- `'use client'` directive ONLY on components that need interactivity (charts, toggles, search inputs)
 - Server components by default
 - Tailwind classes for all styling — no CSS files
-- shadcn/ui patterns welcome but don't install the full library — build components inline
+- recharts for all charts — import from 'recharts'
+- One component per file in `src/components/`
+- Types in `src/types/` or co-located with components
 
-## Feedback Loops (run before every commit)
+## Feedback Loops (run before finishing)
 ```bash
 npm run build    # Must succeed — no TypeScript errors
-npm run test     # Must pass — no test failures
 npm run lint     # Must pass — no lint warnings
 ```
 
-## Commit Convention
+## Commit Convention (harness applies this, not the agent)
 ```
-feat(#ID): short description of feature
+feat(#ID): description (score: X/10, N attempts)
 ```
-Where ID matches the feature_list.json feature ID.
 
-## Rules
-- ONE feature per session. Do not try to implement multiple features.
-- Search before implementing — don't assume something doesn't exist.
-- No placeholder code. No TODOs. No stubs. Full implementations only.
-- If stuck, note the issue in claude-progress.txt and exit cleanly.
+## Key Files
+- `feature_list.json` — 30 features, source of truth for what to build
+- `public/metrics.json` — build metrics, source of truth for dashboard data
+- `claude-progress.txt` — session log, read at start of each iteration
+- `PROMPT_build.md` — instructions for the coding agent (you)
+- `.ralph-logs/feedback.md` — evaluator feedback for revision attempts

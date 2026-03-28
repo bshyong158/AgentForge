@@ -1,7 +1,10 @@
 node_modules/
 .next/
 .ralph-logs/
+__pycache__/
+*.pyc
 .dev-pid
 .env
 .env.local
 .vercel
+*.yolo.bak

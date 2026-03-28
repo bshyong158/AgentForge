@@ -1,0 +1,11 @@
+{
+  "project": "AgentForge",
+  "started_at": null,
+  "features": [],
+  "totals": {
+    "tokens_coder": 0,
+    "tokens_evaluator": 0,
+    "cost_usd": 0.0,
+    "elapsed_sec": 0
+  }
+}
