@@ -173,7 +173,7 @@
     "category": "tokens",
     "description": "Running total cost display with current total from metrics.json and a projected final cost line extrapolating linearly to feature 30",
     "verify": "Running total matches metrics.json totals.cost_usd, projection line extends to x=30 with estimated final cost",
-    "passes": false
+    "passes": true
   },
   {
     "id": 26,
