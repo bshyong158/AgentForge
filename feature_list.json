@@ -47,7 +47,7 @@
     "category": "cards",
     "description": "Stat card showing total iterations spent across all features (sum of all attempt counts)",
     "verify": "Count sums attempts array lengths from all features in metrics.json",
-    "passes": false
+    "passes": true
   },
   {
     "id": 8,
