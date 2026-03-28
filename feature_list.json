@@ -201,7 +201,7 @@
     "category": "polish",
     "description": "Responsive layout that works on mobile viewport (< 768px) with sidebar collapsed to a hamburger menu toggle",
     "verify": "Resize browser to 375px width, sidebar collapses, hamburger icon appears, clicking it shows nav overlay",
-    "passes": false
+    "passes": true
   },
   {
     "id": 30,
