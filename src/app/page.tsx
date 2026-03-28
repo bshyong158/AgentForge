@@ -1,7 +1,8 @@
-export default function HomePage() {
+export default function OverviewPage() {
   return (
-    <main className="flex min-h-screen items-center justify-center p-8">
-      <h1 className="text-4xl font-semibold tracking-tight text-zinc-100">AgentForge</h1>
-    </main>
+    <section className="space-y-2">
+      <h2 className="text-2xl font-semibold tracking-tight">Overview</h2>
+      <p className="text-sm text-zinc-400">AgentForge dashboard shell is ready.</p>
+    </section>
   );
 }
