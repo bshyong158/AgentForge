@@ -131,7 +131,7 @@
     "category": "features",
     "description": "Sortable data table of all 30 features showing columns: ID, description (truncated), category, score, iterations, status, duration. Click column header to sort.",
     "verify": "Table renders all 30 rows (pending features show as gray), clicking headers sorts ascending/descending",
-    "passes": false
+    "passes": true
   },
   {
     "id": 20,
