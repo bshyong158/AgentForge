@@ -15,8 +15,8 @@ export default function ArchitecturePage() {
         <p className="mt-4 max-w-2xl text-zinc-300 leading-relaxed text-[15px]">
           The key feature is <span className="text-emerald-400 font-semibold">backpressure</span>. Before any line of code is allowed to commit, a completely separate evaluator agent scores it and rejects anything that isn&apos;t good enough. The builder can&apos;t grade its own homework.
         </p>
-        <p className="mt-4 max-w-2xl text-zinc-400 leading-relaxed text-[15px]">
-          Same model everyone here used today, same tokens — just a different architecture.
+        <p className="mt-4 max-w-2xl text-zinc-300 leading-relaxed text-[15px]">
+          Instead of one-shotting the whole app, we designed a harness that systematically works through each feature one at a time — build it, evaluate it, score it, feed back if it&apos;s not good enough. Only when it passes does the harness commit to GitHub and flip the feature to &ldquo;passed&rdquo; in the JSON. Then it moves to the next one.
         </p>
         <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
           <Stat label="Features Built" value="29 / 30" />
