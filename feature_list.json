@@ -117,7 +117,7 @@
     "category": "quality",
     "description": "Improvement trend line: scatter plot of scores ordered by completion time with a linear regression trend line overlaid, plus text indicating positive or negative slope",
     "verify": "Trend line renders over score points, slope direction text matches actual trend, regression calculated correctly",
-    "passes": false
+    "passes": true
   },
   {
     "id": 18,

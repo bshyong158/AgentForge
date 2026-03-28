@@ -1,5 +1,6 @@
 import { CategoryAverageScoreBarChart } from "../../components/CategoryAverageScoreBarChart";
 import { FirstVsFinalScoreScatterPlot } from "../../components/FirstVsFinalScoreScatterPlot";
+import { ImprovementTrendScatterPlot } from "../../components/ImprovementTrendScatterPlot";
 import { QualityScoreDistributionHistogram } from "../../components/QualityScoreDistributionHistogram";
 
 export default function QualityPage() {
@@ -10,6 +11,7 @@ export default function QualityPage() {
       <QualityScoreDistributionHistogram />
       <FirstVsFinalScoreScatterPlot />
       <CategoryAverageScoreBarChart />
+      <ImprovementTrendScatterPlot />
     </section>
   );
 }
