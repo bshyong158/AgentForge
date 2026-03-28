@@ -1,0 +1,17 @@
+{
+  "features": [],
+  "totals": {
+    "features_completed": 0,
+    "features_skipped": 0,
+    "total_iterations": 0,
+    "total_tokens_coder": 0,
+    "total_tokens_evaluator": 0,
+    "cost_usd": 0.0,
+    "started_at": "",
+    "last_updated": ""
+  },
+  "meta": {
+    "project": "AgentForge",
+    "total_features": 30
+  }
+}
