@@ -1,8 +1,11 @@
+import { TokenSpendPieChart } from "../../components/TokenSpendPieChart";
+
 export default function TokensPage() {
   return (
-    <section className="space-y-2">
+    <section className="space-y-6">
       <h2 className="text-2xl font-semibold tracking-tight">Token Economics</h2>
-      <p className="text-sm text-zinc-400">Token and cost metrics will appear here.</p>
+      <p className="text-sm text-zinc-400">Token usage distribution across the coder and evaluator roles.</p>
+      <TokenSpendPieChart />
     </section>
   );
 }

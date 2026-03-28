@@ -159,7 +159,7 @@
     "category": "tokens",
     "description": "Pie chart using recharts showing token spend split between coder (tokens_coder) and evaluator (tokens_evaluator) roles with labels and percentages",
     "verify": "Pie segments proportional to token counts in metrics.json totals, labels show role name and percentage",
-    "passes": false
+    "passes": true
   },
   {
     "id": 24,

@@ -79,3 +79,5 @@ Known issues:
 - Pending feature implementation state: #21 partial groundwork only (table exists but no search/category filter UI), #22-#27 not started, #28 partial (loading text but no skeleton pulse components), #29 partial responsive layout but no hamburger menu/overlay, #30 not started (no polling interval in `useMetrics`).
 
 === Feature #21 PASSED (score: 10/10, 1 attempts, 124s) — 2026-03-28T13:40:16-0700 ===
+
+=== Feature #22 PASSED (score: 10/10, 1 attempts, 186s) — 2026-03-28T13:43:26-0700 ===
