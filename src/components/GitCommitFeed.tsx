@@ -2,6 +2,7 @@
 
 import { useMemo } from "react";
 import { type MetricsFeature, useMetrics } from "../hooks/useMetrics";
+import { type CodeVolumeSparklinePoint, CodeVolumeSparkline } from "./CodeVolumeSparkline";
 
 interface CommitFeedItem {
   id: number;
@@ -11,6 +12,8 @@ interface CommitFeedItem {
   completedAtLabel: string;
   completedAtMs: number;
   score: number | null;
+  linesAdded: number;
+  sparklineData: CodeVolumeSparklinePoint[];
 }
 
 const DATE_FORMATTER = new Intl.DateTimeFormat("en-US", {
@@ -66,8 +69,16 @@ function formatScore(score: number | null): string {
   return `Score ${score.toFixed(1)}`;
 }
 
+function normalizeLinesAdded(linesAdded: number): number {
+  if (!Number.isFinite(linesAdded) || linesAdded < 0) {
+    return 0;
+  }
+
+  return Math.round(linesAdded);
+}
+
 function buildCommitFeedItems(features: MetricsFeature[]): CommitFeedItem[] {
-  return features
+  const baseItems = features
     .filter((feature) => feature.commit_sha.trim().length > 0)
     .map((feature) => {
       const timestamp = toTimestampLabel(feature.completed_at);
@@ -80,8 +91,32 @@ function buildCommitFeedItems(features: MetricsFeature[]): CommitFeedItem[] {
         completedAtLabel: timestamp.label,
         completedAtMs: timestamp.ms,
         score: isValidScore(feature.final_score) ? feature.final_score : null,
+        linesAdded: normalizeLinesAdded(feature.lines_added),
       };
     })
+    .sort((left, right) => {
+      if (left.completedAtMs !== right.completedAtMs) {
+        return left.completedAtMs - right.completedAtMs;
+      }
+
+      return left.id - right.id;
+    });
+
+  const itemsWithSparkline = baseItems.map((item, index) => {
+    const windowStart = Math.max(0, index - 5);
+    const sparklineData = baseItems.slice(windowStart, index + 1).map((windowItem) => ({
+      featureId: windowItem.id,
+      linesAdded: windowItem.linesAdded,
+      isCurrent: windowItem.id === item.id,
+    }));
+
+    return {
+      ...item,
+      sparklineData,
+    };
+  });
+
+  return itemsWithSparkline
     .sort((left, right) => {
       if (left.completedAtMs !== right.completedAtMs) {
         return right.completedAtMs - left.completedAtMs;
@@ -115,19 +150,29 @@ export function GitCommitFeed() {
               key={`${item.id}-${item.commitSha}`}
               className="rounded-lg border border-zinc-800 bg-zinc-950/50 p-3"
             >
-              <div className="flex flex-wrap items-start justify-between gap-2">
-                <p className="min-w-0 flex-1 text-sm text-zinc-200">{item.commitMessage}</p>
-                <span
-                  className={`inline-flex items-center rounded-md border px-2 py-1 text-xs font-medium ${getScoreBadgeClassName(item.score)}`}
-                >
-                  {formatScore(item.score)}
-                </span>
-              </div>
-              <div className="mt-2 flex flex-wrap items-center gap-2 text-xs text-zinc-400">
-                <span className="rounded border border-zinc-700 bg-zinc-900 px-2 py-1 font-mono text-zinc-300">
-                  {item.commitSha.slice(0, 7)}
-                </span>
-                <time dateTime={item.completedAtRaw || undefined}>{item.completedAtLabel}</time>
+              <div className="flex items-start justify-between gap-3">
+                <div className="min-w-0 flex-1">
+                  <p className="text-sm text-zinc-200">{item.commitMessage}</p>
+                  <div className="mt-2 flex flex-wrap items-center gap-2 text-xs text-zinc-400">
+                    <span className="rounded border border-zinc-700 bg-zinc-900 px-2 py-1 font-mono text-zinc-300">
+                      {item.commitSha.slice(0, 7)}
+                    </span>
+                    <time dateTime={item.completedAtRaw || undefined}>{item.completedAtLabel}</time>
+                  </div>
+                </div>
+                <div className="flex shrink-0 flex-col items-end gap-2">
+                  <span
+                    className={`inline-flex items-center rounded-md border px-2 py-1 text-xs font-medium ${getScoreBadgeClassName(item.score)}`}
+                  >
+                    {formatScore(item.score)}
+                  </span>
+                  <div className="flex flex-col items-end gap-1">
+                    <CodeVolumeSparkline data={item.sparklineData} featureId={item.id} />
+                    <p className="text-[11px] leading-none text-zinc-500">
+                      {item.linesAdded.toLocaleString()} lines
+                    </p>
+                  </div>
+                </div>
               </div>
             </li>
           ))}

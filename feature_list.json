@@ -187,7 +187,7 @@
     "category": "git",
     "description": "Code volume sparkline showing lines_added per feature as small inline sparkline charts next to each feature in the commit feed",
     "verify": "Sparklines render as tiny line charts, height proportional to lines_added value from metrics.json",
-    "passes": false
+    "passes": true
   },
   {
     "id": 28,
