@@ -13,10 +13,10 @@ export default function ArchitecturePage() {
           This dashboard was built from scratch by an autonomous agent in 78 minutes — <span className="text-zinc-100 font-semibold">zero human code</span> — and every chart on screen is showing you that agent&apos;s own build process: its scores, its failures, its revisions, its cost.
         </p>
         <p className="mt-4 max-w-2xl text-zinc-300 leading-relaxed text-[15px]">
-          The trick is <span className="text-emerald-400 font-semibold">backpressure</span>. Before any line of code is allowed to commit, a completely separate evaluator agent scores it and rejects anything that isn&apos;t good enough. The builder can&apos;t grade its own homework.
+          The key feature is <span className="text-emerald-400 font-semibold">backpressure</span>. Before any line of code is allowed to commit, a completely separate evaluator agent scores it and rejects anything that isn&apos;t good enough. The builder can&apos;t grade its own homework.
         </p>
         <p className="mt-4 max-w-2xl text-zinc-400 leading-relaxed text-[15px]">
-          Same model everyone here used today, same tokens — <span className="text-zinc-200 font-medium">different architecture, better output</span>.
+          Same model everyone here used today, same tokens — just a different architecture.
         </p>
         <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
           <Stat label="Features Built" value="29 / 30" />
