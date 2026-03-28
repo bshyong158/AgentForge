@@ -19,6 +19,7 @@ const navItems: NavItem[] = [
   { href: "/features", label: "Features" },
   { href: "/tokens", label: "Tokens" },
   { href: "/git", label: "Git" },
+  { href: "/architecture", label: "Architecture" },
 ];
 
 function isActive(pathname: string, href: string): boolean {
