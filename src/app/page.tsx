@@ -531,11 +531,21 @@ export default function Dashboard() {
                 </thead>
                 <tbody className="divide-y divide-zinc-200 dark:divide-zinc-800">
                   {metrics.features.map(f => (
-                    <tr key={f.id} className="hover:bg-zinc-100/80 dark:hover:bg-zinc-900/50 cursor-pointer" onClick={() => setExpandedFeature(expandedFeature === f.id ? null : f.id)}>
+                    <tr
+                      key={f.id}
+                      className="hover:bg-zinc-100/80 dark:hover:bg-zinc-900/50 cursor-pointer"
+                      onClick={() => setExpandedFeature(expandedFeature === f.id ? null : f.id)}
+                    >
                       <td className="px-4 py-3 text-zinc-600 dark:text-zinc-400">#{f.id}</td>
                       <td className="px-4 py-3 text-zinc-800 dark:text-zinc-200 max-w-xs truncate">{f.description}</td>
                       <td className="px-4 py-3">
-                        <span className="text-xs rounded px-2 py-0.5" style={{ background: `${CATEGORY_COLORS[f.category] || COLORS.zinc}22`, color: CATEGORY_COLORS[f.category] || COLORS.zinc }}>
+                        <span
+                          className="text-xs rounded px-2 py-0.5"
+                          style={{
+                            background: `${CATEGORY_COLORS[f.category] || COLORS.zinc}22`,
+                            color: CATEGORY_COLORS[f.category] || COLORS.zinc,
+                          }}
+                        >
                           {f.category}
                         </span>
                       </td>
