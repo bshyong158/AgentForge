@@ -61,7 +61,7 @@
     "category": "timeline",
     "description": "Line chart using recharts showing cumulative features completed over time with x-axis as timestamps and y-axis as count from 0 to 30",
     "verify": "Chart renders with recharts LineChart, data points correspond to completed_at timestamps in metrics.json, line trends upward",
-    "passes": false
+    "passes": true
   },
   {
     "id": 10,
