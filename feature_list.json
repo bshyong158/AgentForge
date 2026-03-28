@@ -4,7 +4,7 @@
     "category": "scaffold",
     "description": "Next.js 15 app with TypeScript strict mode and Tailwind CSS v4 scaffolded, renders homepage with AgentForge title and dark background",
     "verify": "localhost:3000 renders without errors, page shows AgentForge heading",
-    "passes": true
+    "passes": false
   },
   {
     "id": 2,

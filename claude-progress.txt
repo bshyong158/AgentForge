@@ -1,8 +1,1 @@
-=== AgentForge Progress Log ===
-Project: Self-Referential Metrics Dashboard
-Data source: public/metrics.json (harness-written, dashboard reads)
-Charts: recharts library
-Started: [will be set by ralph-loop.sh]
 
-Features: 0/30 passing
-Commits: 0

@@ -93,7 +93,7 @@ while true; do
             2>&1 | tee "$LOG_DIR/iteration-${ITERATION}-plan.log" || true
         # Push after planning pass
         log "Pushing to origin (post-planning)..."
-        git push origin main 2>&1 || log "WARNING: git push failed (network?)"
+        git push origin HEAD 2>&1 || log "WARNING: git push failed (network?)"
         continue
     fi
 
@@ -364,7 +364,7 @@ print(json.dumps(entry))
         # Batch push
         if (( FEATURES_COMPLETED % PUSH_INTERVAL == 0 )); then
             log "Pushing to origin (batch, $FEATURES_COMPLETED features done)..."
-            git push origin main 2>&1 || log "WARNING: git push failed (network?)"
+            git push origin HEAD 2>&1 || log "WARNING: git push failed (network?)"
         fi
 
     else
@@ -429,7 +429,7 @@ done
 
 # --- Final Push ---
 log "Final push to origin..."
-git push origin main 2>&1 || log "WARNING: final push failed"
+git push origin HEAD 2>&1 || log "WARNING: final push failed"
 
 log ""
 log "=== AgentForge Ralph Loop Complete ==="
