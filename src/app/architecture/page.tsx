@@ -3,10 +3,28 @@
 export default function ArchitecturePage() {
   return (
     <section className="space-y-8 pb-12">
-      <div>
-        <h2 className="text-2xl font-semibold tracking-tight">Architecture</h2>
-        <p className="mt-1 text-sm text-zinc-400">
-          How AgentForge autonomously built this dashboard from an empty repo in ~75 minutes.
+      {/* Hero / Elevator Pitch */}
+      <div className="rounded-xl border border-zinc-700 bg-gradient-to-br from-zinc-900 via-zinc-900/80 to-zinc-950 p-8">
+        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-emerald-400 mb-3">Ralphthon SF 2026</p>
+        <h2 className="text-3xl font-bold tracking-tight text-zinc-100 sm:text-4xl">
+          Everyone here ran a Ralph Loop today.<br />
+          <span className="text-emerald-400">We added teeth.</span>
+        </h2>
+        <p className="mt-4 max-w-2xl text-zinc-400 leading-relaxed">
+          AgentForge is a <span className="text-zinc-200 font-medium">two-loop autonomous build system</span> with quality backpressure.
+          The outer loop (Ralph) picks a feature and builds it.
+          The inner loop (Evaluator) scores it on 3 dimensions — and <span className="text-zinc-200 font-medium">rejects it if it&apos;s not good enough</span>.
+          A separate model with fresh context grades the work so the builder can&apos;t self-congratulate.
+        </p>
+        <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
+          <Stat label="Features Built" value="29 / 30" />
+          <Stat label="Avg Score" value="9.5 / 10" />
+          <Stat label="Total Build" value="~75 min" />
+          <Stat label="Human Code" value="0 lines" />
+        </div>
+        <p className="mt-6 text-sm text-zinc-500">
+          Generating code is cheap. What&apos;s hard is ensuring the agent generated the <span className="text-zinc-300 italic">right</span> thing.
+          Same model as everyone else. Same tokens. <span className="text-zinc-200 font-medium">Different harness.</span>
         </p>
       </div>
 
@@ -249,6 +267,15 @@ export default function ArchitecturePage() {
         </div>
       </div>
     </section>
+  );
+}
+
+function Stat({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-lg border border-zinc-700/50 bg-zinc-800/30 px-3 py-2.5 text-center">
+      <p className="text-lg font-bold tabular-nums text-zinc-100">{value}</p>
+      <p className="text-[10px] font-medium uppercase tracking-wider text-zinc-500">{label}</p>
+    </div>
   );
 }
 
