@@ -166,7 +166,7 @@
     "category": "tokens",
     "description": "Line chart showing cost per feature over time (each feature's total token cost) to visualize if the agent becomes more efficient",
     "verify": "Line plots cost per feature in completion order, calculated from feature attempt token sums",
-    "passes": false
+    "passes": true
   },
   {
     "id": 25,
