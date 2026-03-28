@@ -10,13 +10,13 @@ export default function ArchitecturePage() {
           An agent&apos;s self-portrait.
         </h2>
         <p className="mt-5 max-w-2xl text-zinc-300 leading-relaxed text-[15px]">
-          This dashboard was built from scratch by an autonomous agent in 78 minutes — <span className="text-zinc-100 font-semibold">zero human code</span> — and every chart on screen is showing you that agent&apos;s own build process: its scores, its failures, its revisions, its cost.
+          When you let an agent build autonomously, you need to understand — step by step — what it built, what it cost, how long each piece took, and where it struggled. This dashboard gives you that visibility. It was built from scratch by an autonomous agent in 78 minutes, <span className="text-zinc-100 font-semibold">zero human code</span>, and every chart on screen is showing you that agent&apos;s own build process.
         </p>
         <p className="mt-4 max-w-2xl text-zinc-300 leading-relaxed text-[15px]">
-          The key feature is <span className="text-emerald-400 font-semibold">backpressure</span>. Before any line of code is allowed to commit, a completely separate evaluator agent scores it and rejects anything that isn&apos;t good enough. The builder can&apos;t grade its own homework.
+          But the focus is the <span className="text-emerald-400 font-semibold">agent harness</span> underneath it. Instead of one-shotting the whole app, the harness systematically works through each feature one at a time — build it, evaluate it, score it, feed back if it&apos;s not good enough. Before any code is allowed to commit, a completely separate evaluator agent scores it and rejects anything below threshold. The builder can&apos;t grade its own homework. Only when it passes does the harness commit to GitHub and flip the feature to &ldquo;passed.&rdquo; Then it moves to the next one.
         </p>
         <p className="mt-4 max-w-2xl text-zinc-300 leading-relaxed text-[15px]">
-          Instead of one-shotting the whole app, we designed a harness that systematically works through each feature one at a time — build it, evaluate it, score it, feed back if it&apos;s not good enough. Only when it passes does the harness commit to GitHub and flip the feature to &ldquo;passed&rdquo; in the JSON. Then it moves to the next one.
+          The 30 features here are a metrics dashboard — but swap in any feature set and AgentForge runs the same process. The harness is <span className="text-zinc-100 font-medium">repeatable, expandable, and application-agnostic</span>.
         </p>
         <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
           <Stat label="Features Built" value="29 / 30" />
