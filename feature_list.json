@@ -54,7 +54,7 @@
     "category": "cards",
     "description": "Stat card showing total tokens consumed with cost estimate calculated as (tokens_coder + tokens_evaluator) and cost from totals.cost_usd formatted as USD",
     "verify": "Token count and cost match metrics.json totals, formatted with commas and dollar sign",
-    "passes": false
+    "passes": true
   },
   {
     "id": 9,
