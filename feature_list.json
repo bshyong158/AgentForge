@@ -75,7 +75,7 @@
     "category": "timeline",
     "description": "Area chart using recharts showing time spent per feature in minutes, calculated from started_at to completed_at in metrics.json",
     "verify": "Area fills under duration line, x-axis is feature ID ordered by completion, y-axis is minutes",
-    "passes": false
+    "passes": true
   },
   {
     "id": 12,

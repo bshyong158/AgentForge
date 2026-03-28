@@ -1,4 +1,5 @@
 import { CumulativeCompletionChart } from "../../components/CumulativeCompletionChart";
+import { FeatureDurationAreaChart } from "../../components/FeatureDurationAreaChart";
 import { QualityScoreBarChart } from "../../components/QualityScoreBarChart";
 
 export default function TimelinePage() {
@@ -8,6 +9,7 @@ export default function TimelinePage() {
       <p className="text-sm text-zinc-400">Progress over time from completed feature timestamps.</p>
       <CumulativeCompletionChart />
       <QualityScoreBarChart />
+      <FeatureDurationAreaChart />
     </section>
   );
 }
