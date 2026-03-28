@@ -33,7 +33,7 @@
     "category": "cards",
     "description": "Stat card component showing total features completed as X / 30 with a horizontal progress bar fill",
     "verify": "Card renders on Overview page, count matches number of passed features in metrics.json, progress bar width proportional to completion",
-    "passes": false
+    "passes": true
   },
   {
     "id": 6,
