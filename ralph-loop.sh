@@ -6,10 +6,54 @@
 # The harness owns ALL authority: commit, mark passes, push, skip.
 # The coding agent (Codex) only builds code and exits.
 # The evaluator (Sonnet via evaluate.py) scores and provides feedback.
+#
+# Usage:
+#   ./ralph-loop.sh                                          # Default: AgentForge project
+#   ./ralph-loop.sh --features path/to/features.json         # Custom feature list
+#   ./ralph-loop.sh --prompt path/to/PROMPT_build.md         # Custom build prompt
+#   ./ralph-loop.sh --project-dir /path/to/project           # Run in different directory
+#   ./ralph-loop.sh --features f.json --prompt p.md --project-dir /proj  # All combined
 set -uo pipefail
 
-PROJECT_DIR="$(cd "$(dirname "$0")" && pwd)"
+# --- Locate AgentForge home (where evaluate.py, metrics_writer.py live) ---
+AGENTFORGE_HOME="$(cd "$(dirname "$0")" && pwd)"
+
+# --- Argument Parsing (all optional, backward-compatible defaults) ---
+FEATURE_FILE=""
+BUILD_PROMPT=""
+PLAN_PROMPT=""
+WORK_DIR=""
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --features)     FEATURE_FILE="$2"; shift 2 ;;
+        --prompt)       BUILD_PROMPT="$2"; shift 2 ;;
+        --plan-prompt)  PLAN_PROMPT="$2"; shift 2 ;;
+        --project-dir)  WORK_DIR="$2"; shift 2 ;;
+        --help|-h)
+            echo "Usage: ralph-loop.sh [OPTIONS]"
+            echo "  --features <path>      Feature list JSON (default: feature_list.json)"
+            echo "  --prompt <path>        Build prompt file (default: PROMPT_build.md)"
+            echo "  --plan-prompt <path>   Planning prompt file (default: PROMPT_plan.md)"
+            echo "  --project-dir <path>   Working directory (default: AgentForge dir)"
+            exit 0
+            ;;
+        *) echo "Unknown option: $1"; exit 1 ;;
+    esac
+done
+
+# --- Resolve paths ---
+PROJECT_DIR="${WORK_DIR:-$AGENTFORGE_HOME}"
 cd "$PROJECT_DIR"
+
+FEATURE_FILE="${FEATURE_FILE:-feature_list.json}"
+BUILD_PROMPT="${BUILD_PROMPT:-PROMPT_build.md}"
+PLAN_PROMPT="${PLAN_PROMPT:-PROMPT_plan.md}"
+
+# Make relative paths absolute
+[[ "$FEATURE_FILE" != /* ]] && FEATURE_FILE="$PROJECT_DIR/$FEATURE_FILE"
+[[ "$BUILD_PROMPT" != /* ]] && BUILD_PROMPT="$PROJECT_DIR/$BUILD_PROMPT"
+[[ "$PLAN_PROMPT" != /* ]]  && PLAN_PROMPT="$PROJECT_DIR/$PLAN_PROMPT"
 
 # --- Configuration ---
 MAX_ATTEMPTS=3          # Inner loop: max attempts per feature
@@ -24,17 +68,23 @@ mkdir -p "$LOG_DIR"
 ITERATION=0
 FEATURES_COMPLETED=0
 CONSECUTIVE_SKIPS=0
-TOTAL_FEATURES=30
+TOTAL_FEATURES=$(python3 -c "import json; print(len(json.load(open('$FEATURE_FILE'))))")
 
 # --- Helpers ---
 timestamp() { date '+%Y-%m-%dT%H:%M:%S%z'; }
 log() { echo "[$(timestamp)] $*"; }
-log_progress() { echo "" >> claude-progress.txt; echo "=== $* ===" >> claude-progress.txt; }
+
+PROGRESS_FILE="$PROJECT_DIR/claude-progress.txt"
+log_progress() {
+    [ -f "$PROGRESS_FILE" ] || touch "$PROGRESS_FILE"
+    echo "" >> "$PROGRESS_FILE"
+    echo "=== $* ===" >> "$PROGRESS_FILE"
+}
 
 get_next_feature() {
     python3 -c "
 import json
-with open('feature_list.json') as f:
+with open('$FEATURE_FILE') as f:
     features = json.load(f)
 for feat in features:
     if not feat.get('passes') and not feat.get('skipped'):
@@ -45,12 +95,30 @@ else:
 "
 }
 
-# LOWERED: all thresholds to 5 for hackathon speed
+mark_feature() {
+    # Usage: mark_feature <id> <field> (passes or skipped)
+    local fid="$1"
+    local field="$2"
+    python3 -c "
+import json
+with open('$FEATURE_FILE', 'r') as f:
+    features = json.load(f)
+for feat in features:
+    if feat.get('id') == $fid:
+        feat['$field'] = True
+        break
+with open('$FEATURE_FILE', 'w') as f:
+    json.dump(features, f, indent=2)
+    f.write('\n')
+"
+}
+
 get_threshold() {
     local category="$1"
     case "$category" in
-        scaffold) echo 4 ;;
+        scaffold|simple) echo 4 ;;
         git|polish) echo 5 ;;
+        complex) echo 6 ;;
         *) echo 5 ;;
     esac
 }
@@ -58,7 +126,7 @@ get_threshold() {
 check_dev_server() {
     if ! curl -s --max-time 3 http://localhost:3001 > /dev/null 2>&1; then
         log "Dev server down. Restarting..."
-        local pid_file=".dev-pid"
+        local pid_file="$PROJECT_DIR/.dev-pid"
         if [ -f "$pid_file" ]; then
             kill "$(cat "$pid_file")" 2>/dev/null || true
         fi
@@ -68,13 +136,29 @@ check_dev_server() {
     fi
 }
 
+# --- Optional tools (may not exist outside AgentForge) ---
+run_metrics_writer() {
+    local metrics_script="$AGENTFORGE_HOME/metrics_writer.py"
+    if [ -f "$metrics_script" ]; then
+        python3 "$metrics_script" "$@" || log "WARNING: metrics_writer failed"
+    fi
+}
+
+run_evaluate() {
+    python3 "$AGENTFORGE_HOME/evaluate.py" "$@"
+}
+
 # --- Startup ---
 log "=== AgentForge Ralph Loop Starting ==="
 log "=== Model: $CODEX_MODEL | Max attempts: $MAX_ATTEMPTS | Timeout: ${CODEX_TIMEOUT}s ==="
-python3 metrics_writer.py --set-started
+log "=== Features: $FEATURE_FILE ($TOTAL_FEATURES tasks) ==="
+log "=== Project: $PROJECT_DIR ==="
+run_metrics_writer --set-started
 
-# Ensure dev server is running
-check_dev_server
+# Ensure dev server is running (skip if no package.json — non-Node project)
+if [ -f "$PROJECT_DIR/package.json" ]; then
+    check_dev_server
+fi
 
 # ============================================================
 # OUTER LOOP — One feature per iteration
@@ -87,12 +171,16 @@ while true; do
 
     # --- Planning Pass (every PLAN_INTERVAL iterations) ---
     if [ "$ITERATION" -gt 1 ] && (( (ITERATION - 1) % PLAN_INTERVAL == 0 )); then
-        log "MODE: Planning pass (gap analysis + regression detection)"
-        gtimeout "$CODEX_TIMEOUT" codex exec "$(cat PROMPT_plan.md)" \
-            --full-auto -m "$CODEX_MODEL" \
-            2>&1 | tee "$LOG_DIR/iteration-${ITERATION}-plan.log" || true
-        log "Pushing to origin (post-planning)..."
-        git push origin HEAD 2>&1 || log "WARNING: git push failed (network?)"
+        if [ -f "$PLAN_PROMPT" ]; then
+            log "MODE: Planning pass (gap analysis + regression detection)"
+            gtimeout "$CODEX_TIMEOUT" codex exec "$(cat "$PLAN_PROMPT")" \
+                --full-auto -m "$CODEX_MODEL" \
+                2>&1 | tee "$LOG_DIR/iteration-${ITERATION}-plan.log" || true
+            log "Pushing to origin (post-planning)..."
+            git push origin HEAD 2>&1 || log "WARNING: git push failed (network?)"
+        else
+            log "SKIP: No planning prompt found at $PLAN_PROMPT"
+        fi
         continue
     fi
 
@@ -107,7 +195,7 @@ while true; do
     FEATURE_ID=$(echo "$FEATURE_JSON" | python3 -c "import json,sys; print(json.load(sys.stdin)['id'])")
     FEATURE_DESC=$(echo "$FEATURE_JSON" | python3 -c "import json,sys; print(json.load(sys.stdin)['description'])")
     FEATURE_VERIFY=$(echo "$FEATURE_JSON" | python3 -c "import json,sys; print(json.load(sys.stdin)['verify'])")
-    FEATURE_CATEGORY=$(echo "$FEATURE_JSON" | python3 -c "import json,sys; print(json.load(sys.stdin)['category'])")
+    FEATURE_CATEGORY=$(echo "$FEATURE_JSON" | python3 -c "import json,sys; print(json.load(sys.stdin).get('category', 'moderate'))")
     THRESHOLD=$(get_threshold "$FEATURE_CATEGORY")
 
     log "Feature #$FEATURE_ID [$FEATURE_CATEGORY]: ${FEATURE_DESC:0:80}..."
@@ -131,8 +219,10 @@ while true; do
         ATTEMPT_START=$(date +%s)
         log "--- Attempt $ATTEMPT/$MAX_ATTEMPTS for feature #$FEATURE_ID ---"
 
-        # --- Check dev server ---
-        check_dev_server
+        # --- Check dev server (Node projects only) ---
+        if [ -f "$PROJECT_DIR/package.json" ]; then
+            check_dev_server
+        fi
 
         REVERT_SHA=$(git rev-parse HEAD 2>/dev/null || echo "")
 
@@ -140,7 +230,7 @@ while true; do
         log "CODEX: Building feature #$FEATURE_ID (attempt $ATTEMPT)..."
         CODEX_LOG="$LOG_DIR/iter-${ITERATION}-attempt-${ATTEMPT}-codex.log"
 
-        gtimeout "$CODEX_TIMEOUT" codex exec "$(cat PROMPT_build.md)" \
+        gtimeout "$CODEX_TIMEOUT" codex exec "$(cat "$BUILD_PROMPT")" \
             --full-auto -m "$CODEX_MODEL" \
             2>&1 | tee "$CODEX_LOG" || {
             log "WARNING: Codex timed out or failed"
@@ -186,11 +276,13 @@ print(json.dumps(data))
         fi
         log "GATE PASSED: Build OK"
 
-        # --- Mechanical Gate 2: Localhost responds ---
-        if curl -s --max-time 5 http://localhost:3001 | grep -q '<' 2>/dev/null; then
-            log "GATE PASSED: localhost OK"
-        else
-            log "GATE WARNING: localhost not responding (non-fatal)"
+        # --- Mechanical Gate 2: Localhost responds (Node projects only) ---
+        if [ -f "$PROJECT_DIR/package.json" ]; then
+            if curl -s --max-time 5 http://localhost:3001 | grep -q '<' 2>/dev/null; then
+                log "GATE PASSED: localhost OK"
+            else
+                log "GATE WARNING: localhost not responding (non-fatal)"
+            fi
         fi
 
         # --- Get diff for evaluator ---
@@ -206,7 +298,7 @@ print(json.dumps(data))
 
         # --- Evaluator (Sonnet via evaluate.py) ---
         log "EVALUATOR: Scoring feature #$FEATURE_ID (attempt $ATTEMPT)..."
-        EVAL_JSON=$(python3 evaluate.py eval \
+        EVAL_JSON=$(run_evaluate eval \
             --feature-id "$FEATURE_ID" \
             --description "$FEATURE_DESC" \
             --verify "$FEATURE_VERIFY" \
@@ -327,7 +419,7 @@ print(json.dumps(data))
     if [ "$FINAL_STATUS" = "passed" ]; then
         log "PASS: Feature #$FEATURE_ID scored $SCORE/10 in $ATTEMPT attempt(s)"
 
-        python3 json_guard.py --mark-passing "$FEATURE_ID" || log "WARNING: json_guard failed"
+        mark_feature "$FEATURE_ID" "passes"
 
         git add -A
         git commit -m "feat(#$FEATURE_ID): ${FEATURE_DESC:0:60} (score: $SCORE/10, $ATTEMPT attempts)" || log "WARNING: git commit failed"
@@ -350,9 +442,9 @@ entry = {
 }
 print(json.dumps(entry))
 ")
-        python3 metrics_writer.py --add "$METRICS_ENTRY" || log "WARNING: metrics_writer failed"
+        run_metrics_writer --add "$METRICS_ENTRY"
 
-        python3 evaluate.py log \
+        run_evaluate log \
             --feature-id "$FEATURE_ID" \
             --score "$SCORE" \
             --duration "$FEATURE_DURATION" \
@@ -365,7 +457,7 @@ print(json.dumps(entry))
         FEATURES_COMPLETED=$((FEATURES_COMPLETED + 1))
         CONSECUTIVE_SKIPS=0
 
-        # Push frequently for Vercel deploys
+        # Push frequently for deploys
         if (( FEATURES_COMPLETED % PUSH_INTERVAL == 0 )); then
             log "Pushing to origin ($FEATURES_COMPLETED features done)..."
             git push origin HEAD 2>&1 || log "WARNING: git push failed (network?)"
@@ -378,8 +470,8 @@ print(json.dumps(entry))
         git checkout . 2>/dev/null || true
         git clean -fd 2>/dev/null || true
 
-        python3 json_guard.py --mark-skipped "$FEATURE_ID" || log "WARNING: json_guard failed"
-        git add feature_list.json
+        mark_feature "$FEATURE_ID" "skipped"
+        git add "$FEATURE_FILE"
         git commit -m "skip(#$FEATURE_ID): best score $BEST_SCORE/10 after $MAX_ATTEMPTS attempts" || true
 
         METRICS_ENTRY=$(python3 -c "
@@ -399,7 +491,7 @@ entry = {
 }
 print(json.dumps(entry))
 ")
-        python3 metrics_writer.py --add "$METRICS_ENTRY" || log "WARNING: metrics_writer failed"
+        run_metrics_writer --add "$METRICS_ENTRY"
 
         log_progress "Feature #$FEATURE_ID SKIPPED (best: $BEST_SCORE/10, $ATTEMPT attempts) — $(timestamp)"
 
@@ -414,8 +506,8 @@ print(json.dumps(entry))
 
     > "$LOG_DIR/feedback.md"
 
-    PASSING_NOW=$(python3 -c "import json; print(sum(1 for f in json.load(open('feature_list.json')) if f.get('passes')))")
-    SKIPPED_NOW=$(python3 -c "import json; print(sum(1 for f in json.load(open('feature_list.json')) if f.get('skipped')))")
+    PASSING_NOW=$(python3 -c "import json; print(sum(1 for f in json.load(open('$FEATURE_FILE')) if f.get('passes')))")
+    SKIPPED_NOW=$(python3 -c "import json; print(sum(1 for f in json.load(open('$FEATURE_FILE')) if f.get('skipped')))")
     PENDING=$((TOTAL_FEATURES - PASSING_NOW - SKIPPED_NOW))
 
     log ""
@@ -432,5 +524,5 @@ git push origin HEAD 2>&1 || log "WARNING: final push failed"
 log ""
 log "=== AgentForge Ralph Loop Complete ==="
 log "=== $(timestamp) ==="
-log "=== Features: $FEATURES_COMPLETED completed ==="
-python3 metrics_writer.py --summary
+log "=== Features: $FEATURES_COMPLETED completed out of $TOTAL_FEATURES ==="
+run_metrics_writer --summary
